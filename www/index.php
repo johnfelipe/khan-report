@@ -54,7 +54,7 @@
       <!-- Main hero unit for a primary marketing message or call to action -->
       <div class="hero-unit">
         <h1>Find what videos has recenly been translated&mdash;in a user-friendly way.</h1>
-        <form class="form-search" target="homepage.php">
+        <form class="form-search" target="index.php">
           <select type="text" name="language" class="input-large chzn-select" data-placeholder="Choose your language&hellip;">
             <?php
             foreach (scandir(__DIR__ . '/../data') as $file) {
