@@ -1,0 +1,8 @@
+{
+	"targets": {
+		"production": "/srv/sites/khan-report.khanovaskola.cz",
+	},
+	"post-update": [
+		"sudo chown -R www-data:web-mikulas . && sudo chmod -R ug+rwx . && sudo chmod -R o-rwx ."
+	]
+}
