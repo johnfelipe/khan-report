@@ -128,7 +128,7 @@
     <!--<script src="/js/bootstrap.min.js"></script>-->
     <script src="/js/jquery-1.9.1.min.js"></script>
     <script src="/js/chosen.jquery.min.js"></script>
-    <script src="/js/ZeroCLipboard.min.js"></script>
+    <script src="/js/ZeroClipboard.min.js"></script>
     <script>
       $(".chzn-select").chosen({no_results_text: "Language not supported"});
       ZeroClipboard.setDefaults({moviePath: 'http://khan-report.khanovaskola.cz/js/ZeroClipboard.swf'});
