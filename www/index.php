@@ -144,7 +144,7 @@
 
       <footer>
         <p>&copy; <a href="http://twitter.com/mikulasdite" target="_blank">Mikuláš Dítě</a> 2013, released for Khanova škola Czech Republic <a href="https://khanovaskola.cz" target="_blank">khanovaskola.cz</a></p>
-        <p>If you have any feature request or issue to report, please do contant <a href="http://twitter.com/mikulasdite" target="_blank">@MikulasDite</a> or at <a href="mailto:mikulas@khanovaskola.cz" target="_blank">mikulas@khanovaskola.cz</a>.
+        <p>If you have any feature request or issue to report, please contact me <a href="http://twitter.com/mikulasdite" target="_blank">@MikulasDite</a> or at <a href="mailto:mikulas@khanovaskola.cz" target="_blank">mikulas@khanovaskola.cz</a>.
       </footer>
 
     </div> <!-- /container -->
