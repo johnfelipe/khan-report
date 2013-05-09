@@ -68,7 +68,18 @@
               if (strpos($file, 'times_') === 0) {
                 $language = substr($file, 6);
                 $forlg = ucwords(str_replace('-', ' ', $language));
-                echo "<option value=\"$language\"" . (isset($_GET['language']) && $language === $_GET['language'] ? ' selected="selected"' : '') . ">$forlg</option>\n";
+                $raw = file_get_contents(__DIR__ . "/../data/$file");
+
+                $data = [];
+                foreach (explode("\n", $raw) as $line) {
+                  if (!$line)
+                    continue;
+                  list($id) = explode(" ", $line);
+                  $data[] = $id;
+                }
+
+                $count = count(array_unique($data));
+                echo "<option value=\"$language\"" . (isset($_GET['language']) && $language === $_GET['language'] ? ' selected="selected"' : '') . ">$forlg ($count)</option>\n";
               }
             }
             ?>
@@ -96,6 +107,11 @@
           foreach ($data as $youtube_id => $time) {
             $date = date('Y-m-d', $time);
             if ($date !== $last_date) {
+              $count = 0;
+              foreach ($data as $i => $t) {
+                if ($date === date('Y-m-d', $t))
+                  $count++;
+              }
               $last_date = $date;
               echo "</ul>\n<hr>\n<h2>" .
                 (
@@ -105,7 +121,7 @@
                     "Yesterday" :
                     "$date (" . timeAgoInWords($time) . ")"
                 ) .
-                "</h2>\n<ul>";
+                " ($count)</h2>\n<ul>";
             }
             @mkdir(__DIR__ . '/cache'); // @ - may already exist
             $cache = __DIR__ . "/cache/" . str_replace('=', '', base64_encode($youtube_id));
