@@ -20,6 +20,10 @@
       ul {list-style: none;}
       li {margin-bottom: 1ex;}
       h2 {font-size: 14pt;}
+
+      .hero-unit {padding: 20px;}
+      h1 {padding-bottom: 1ex;}
+      .chzn-container {margin-top: 1px; font-size: 10pt;}
     </style>
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -84,7 +88,7 @@
             }
             ?>
           </select>
-          <button type="submit" class="btn">Search</button>
+          <button type="submit" class="btn btn-primary">Show content</button>
         </form>
       </div>
 
@@ -133,7 +137,7 @@
               $meta = json_decode(file_get_contents("http://gdata.youtube.com/feeds/api/videos/$youtube_id?v=2&alt=jsonc&prettyprint=false"));
               file_put_contents($cache, serialize($meta));
             }
-            echo "<li><button title=\"test\" data-clipboard-text=\"$youtube_id\"></button> <a href=\"http://www.youtube.com/watch/?v=$youtube_id\"><code>$youtube_id</code></a> &mdash; <a href=\"http://www.khanacademy.org/video?v=$youtube_id\">{$meta->data->title}</a></li>";
+            echo "<li><button title=\"test\" data-clipboard-text=\"$youtube_id\"></button> <a href=\"http://www.youtube.com/watch/?v=$youtube_id\"><code>$youtube_id</code></a> <a href=\"http://www.khanacademy.org/video?v=$youtube_id\">{$meta->data->title}</a></li>";
           }
         ?>
         </ul>
