@@ -13,6 +13,10 @@
     <link href="/css/chosen.css" rel="stylesheet">
     <style type="text/css">
       .hero-unit h1 {font-size: 20pt;}
+      /* zeroclipboard */
+      [data-clipboard-text] {width: 16px; height: 16px; border: none; text-align:center; background: url('/img/copy.png') no-repeat; opacity: .6}
+      [data-clipboard-text].zeroclipboard-is-hover { opacity: 1 }
+      [data-clipboard-text].zeroclipboard-is-active {}
     </style>
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -54,7 +58,7 @@
       <!-- Main hero unit for a primary marketing message or call to action -->
       <div class="hero-unit">
         <h1>Find what videos has recenly been translated&mdash;in a user-friendly way.</h1>
-        <form class="form-search" target="index.php">
+        <form class="form-search" action="index.php">
           <select type="text" name="language" class="input-large chzn-select" data-placeholder="Choose your language&hellip;">
             <?php
             foreach (scandir(__DIR__ . '/../data') as $file) {
@@ -102,7 +106,7 @@
               $meta = json_decode(file_get_contents("http://gdata.youtube.com/feeds/api/videos/$youtube_id?v=2&alt=jsonc&prettyprint=false"));
               file_put_contents($cache, serialize($meta));
             }
-            echo "<li><a href=\"http://www.youtube.com/watch/?v=$youtube_id\"><code>$youtube_id</code></a> &mdash; <a href=\"http://www.khanacademy.org/video?v=$youtube_id\">{$meta->data->title}</a></li>";
+            echo "<li><a href=\"http://www.youtube.com/watch/?v=$youtube_id\"><code>$youtube_id</code></a> <button title=\"test\" data-clipboard-text=\"$youtube_id\"></button> &mdash; <a href=\"http://www.khanacademy.org/video?v=$youtube_id\">{$meta->data->title}</a></li>";
           }
         ?>
         </ul>
@@ -124,8 +128,12 @@
     <!--<script src="/js/bootstrap.min.js"></script>-->
     <script src="/js/jquery-1.9.1.min.js"></script>
     <script src="/js/chosen.jquery.min.js"></script>
+    <script src="/js/ZeroCLipboard.min.js"></script>
     <script>
       $(".chzn-select").chosen({no_results_text: "Language not supported"});
+      ZeroClipboard.setDefaults({moviePath: 'http://khan-report.khanovaskola.cz/js/ZeroClipboard.swf'});
+      var clip = new ZeroClipboard($("button[data-clipboard-text]"));
+      console.log(clip);
     </script>
   </body>
 </html>
