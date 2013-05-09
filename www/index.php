@@ -15,8 +15,10 @@
       .hero-unit h1 {font-size: 20pt;}
       /* zeroclipboard */
       [data-clipboard-text] {width: 16px; height: 16px; border: none; text-align:center; background: url('/img/copy.png') no-repeat; opacity: .6}
-      [data-clipboard-text].zeroclipboard-is-hover { opacity: 1 }
-      [data-clipboard-text].zeroclipboard-is-active {}
+      [data-clipboard-text].zeroclipboard-is-hover {opacity: 1}
+      [data-clipboard-text].zeroclipboard-is-active {background-color: green}
+      ul {list-style: none;}
+      li {margin-bottom: 1ex;}
     </style>
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -106,7 +108,7 @@
               $meta = json_decode(file_get_contents("http://gdata.youtube.com/feeds/api/videos/$youtube_id?v=2&alt=jsonc&prettyprint=false"));
               file_put_contents($cache, serialize($meta));
             }
-            echo "<li><a href=\"http://www.youtube.com/watch/?v=$youtube_id\"><code>$youtube_id</code></a> <button title=\"test\" data-clipboard-text=\"$youtube_id\"></button> &mdash; <a href=\"http://www.khanacademy.org/video?v=$youtube_id\">{$meta->data->title}</a></li>";
+            echo "<li><button title=\"test\" data-clipboard-text=\"$youtube_id\"></button> <a href=\"http://www.youtube.com/watch/?v=$youtube_id\"><code>$youtube_id</code></a> &mdash; <a href=\"http://www.khanacademy.org/video?v=$youtube_id\">{$meta->data->title}</a></li>";
           }
         ?>
         </ul>
@@ -127,13 +129,18 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <!--<script src="/js/bootstrap.min.js"></script>-->
     <script src="/js/jquery-1.9.1.min.js"></script>
+    <script src="/js/jquery-ui-1.10.3.custom.min.js"></script>
     <script src="/js/chosen.jquery.min.js"></script>
     <script src="/js/ZeroClipboard.min.js"></script>
+    <script src="/js/jquery.pulse.min.js"></script>
     <script>
       $(".chzn-select").chosen({no_results_text: "Language not supported"});
-      ZeroClipboard.setDefaults({moviePath: 'http://khan-report.khanovaskola.cz/js/ZeroClipboard.swf'});
+      ZeroClipboard.setDefaults({moviePath: '/js/ZeroClipboard.swf'});
       var clip = new ZeroClipboard($("button[data-clipboard-text]"));
-      console.log(clip);
+      clip.on('complete', function(client, args) {
+        var sibs = $("[data-clipboard-text=\"" + args.text + "\"]").siblings('a:first-of-type').find('code');
+        sibs.pulse({backgroundColor: 'rgb(200, 230, 170)'}, {pulses: 2, duration: 200});
+      });
     </script>
   </body>
 </html>
