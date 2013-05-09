@@ -19,6 +19,7 @@
       [data-clipboard-text].zeroclipboard-is-active {background-color: green}
       ul {list-style: none;}
       li {margin-bottom: 1ex;}
+      h2 {font-size: 14pt;}
     </style>
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -78,7 +79,6 @@
       <?php
       if (isset($_GET['language'])):
       ?>
-      <hr>
         <ul>
         <?php
           $language = str_replace('.', '', str_replace('/', '', $_GET['language']));
@@ -96,7 +96,15 @@
             $date = date('Y-m-d', $time);
             if ($date !== $last_date) {
               $last_date = $date;
-              echo "</ul>$date<ul>";
+              echo "</ul>\n<hr>\n<h2>" .
+                (
+                  $date === date('Y-m-d') ?
+                    "Today" :
+                  $date === date('Y-m-d', time() - 3600 * 24) ?
+                    "Yesterday" :
+                    "$date (" . timeAgoInWords($time) . ")"
+                ) .
+                "</h2>\n<ul>";
             }
             @mkdir(__DIR__ . '/cache'); // @ - may already exist
             $cache = __DIR__ . "/cache/" . str_replace('=', '', base64_encode($youtube_id));
