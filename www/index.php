@@ -67,7 +67,8 @@
             foreach (scandir(__DIR__ . '/../data') as $file) {
               if (strpos($file, 'times_') === 0) {
                 $language = substr($file, 6);
-                echo "<option value=\"$language\"" . (isset($_GET['language']) && $language === $_GET['language'] ? ' selected="selected"' : '') . ">$language</option>\n";
+                $forlg = ucwords(str_replace('-', ' ', $language));
+                echo "<option value=\"$language\"" . (isset($_GET['language']) && $language === $_GET['language'] ? ' selected="selected"' : '') . ">$forlg</option>\n";
               }
             }
             ?>
