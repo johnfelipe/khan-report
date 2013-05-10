@@ -1,18 +1,20 @@
 {url [index.php]}
 {layout "@layout.latte"}
 {?global $languages}
+{var $netteCacheStorage = new Nette\Caching\Storages\FileStorage(__DIR__ . '/../../..')}
 
 
 {#content}
-	<!-- Main hero unit for a primary marketing message or call to action -->
-  <div class="hero-unit">
-    <h1>Find what videos has recenly been translated&mdash;in a user-friendly way.</h1>
-    <form class="form-search" action="recent">
-      <select type="text" name="lang" class="input-large chzn-select" data-placeholder="Choose your language&hellip;">
-        <option n:foreach="$languages as $language" value="{$language[2]}">
-          {$language[0]} ({count(getTranslations($language[2]))})
-        </option>
-      </select>
-      <button type="submit" class="btn btn-primary">Show content</button>
-    </form>
-  </div>
+	{cache expire => '+1 day'}
+    <div class="hero-unit">
+      <h1>Find what videos has recenly been translated&mdash;in a user-friendly way.</h1>
+      <form class="form-search" action="recent">
+        <select type="text" name="lang" class="input-large chzn-select" data-placeholder="Choose your language&hellip;">
+          <option n:foreach="$languages as $language" value="{$language[2]}">
+            {$language[0]} ({count(getTranslations($language[2]))})
+          </option>
+        </select>
+        <button type="submit" class="btn btn-primary">Show content</button>
+      </form>
+    </div>
+  {/cache}

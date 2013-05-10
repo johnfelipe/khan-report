@@ -1,6 +1,7 @@
 {url recent/?lang=<lang>}
 {layout "@layout.latte"}
 {?global $languages}
+{var $netteCacheStorage = new Nette\Caching\Storages\FileStorage(__DIR__ . '/../../..')}
 
 <?php
 $language = '';
@@ -44,29 +45,31 @@ foreach ($languages as $node) {
 			{/if}
 			({count($videos)})
 		</h2>
-		<table class="table table-striped">
-			<tr n:foreach="$videos as $video">
-				<?php
-					$uilang = 'en';
-					if (in_array($lang, ['ar', 'bg', 'cs', 'fr', 'he', 'it', 'pl', 'zh-cn', 'zh-tw'])) {
-						$uilang = $lang;
-					}
+		{cache $day}
+			<table class="table table-striped">
+				<tr n:foreach="$videos as $video">
+					<?php
+						$uilang = 'en';
+						if (in_array($lang, ['ar', 'bg', 'cs', 'fr', 'he', 'it', 'pl', 'zh-cn', 'zh-tw'])) {
+							$uilang = $lang;
+						}
 
-					$amara = getAmara($video, $lang);
-					$amara_url = "http://www.amara.org/$uilang/videos/{$amara->video_id}/$lang/";
-					$youtube = getYoutube($video);
-				?>
-				<tr>
-					<td>
-						<button data-clipboard-text="{$video}"></button> <a href="http://www.youtube.com/watch/?v={$video}" target="_blank"><code>{$video}</code></a>
-					</td>
-					<td>
-						<a href="{$amara_url}" target="_blank">{$amara->subtitles->title ?: '(title not translated)'|truncate:60}</a>
-					</td>
-					<td>
-						<a href="http://www.khanacademy.org/video?v={$video}" target="_blank">{$youtube->data->title ?: '(Khan Academy link)'|truncate:60}</a>
-					</td>
+						$amara = getAmara($video, $lang);
+						$amara_url = "http://www.amara.org/$uilang/videos/{$amara->video_id}/$lang/";
+						$youtube = getYoutube($video);
+					?>
+					<tr>
+						<td>
+							<button data-clipboard-text="{$video}"></button> <a href="http://www.youtube.com/watch/?v={$video}" target="_blank"><code>{$video}</code></a>
+						</td>
+						<td>
+							<a href="{$amara_url}" target="_blank">{$amara->subtitles->title ?: '(title not translated)'|truncate:60}</a>
+						</td>
+						<td>
+							<a href="http://www.khanacademy.org/video?v={$video}" target="_blank">{$youtube->data->title ?: '(Khan Academy link)'|truncate:60}</a>
+						</td>
+					</tr>
 				</tr>
-			</tr>
-		</table>
+			</table>
+		{/cache}
 	{/foreach}
