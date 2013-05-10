@@ -44,7 +44,8 @@ function getTranslations($language)
       continue;
 
     list($time, $youtube_id, $langs) = explode("\t", $line);
-    if (in_array($language, explode(';', $langs))) {
+    if (preg_match("~(\s|;)$language(;|$)~", $line)) { // 14 409.1 ms
+    //if (in_array($language, explode(';', $langs))) { // 14 331.9 ms
       $data[] = [$time, $youtube_id];
     }
   }
