@@ -77,7 +77,7 @@
           $last = end($cycles);
         ?>
         <p n:if="$first === $last">Average time per cycle: not enough data</p>
-        <p n:if="$first !== $last">Average time per cycle: {(time() - $first) / count($cycles) |date:'H:i:s'}</p>
+        <p n:if="$first !== $last">Average time per cycle: {=date('H:i:s', ($last - $first) / (count($cycles) - 1))}</p>
       </footer>
 
     </div> <!-- /container -->
