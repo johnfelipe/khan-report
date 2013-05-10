@@ -1,7 +1,7 @@
 {url recent/?lang=<lang>}
 {layout "@layout.latte"}
 {?global $languages}
-{var $netteCacheStorage = new Nette\Caching\Storages\FileStorage(__DIR__ . '/../../../temp')}
+{var $netteCacheStorage = new Nette\Caching\Storages\FileStorage(__DIR__ . '/../../../temp/cache')}
 
 <?php
 $language = '';
