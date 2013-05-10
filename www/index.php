@@ -1,4 +1,15 @@
+<?php
+$languages = ['ab' => 'Abkhazian', 'gv' => 'Manx', 'gu' => 'Gujarati', 'nan' => 'Hokkien', 'fr-ca' => 'French, Canadian', 'sco' => 'Scots', 'mni' => 'Manipuri', 'gd' => 'Scottish Gaelic', 'pt-br' => 'Portuguese, Brazilian', 'ga' => 'Irish', 'gn' => 'Guaran', 'gl' => 'Galician', 'oji' => 'Ojibwe', 'tsn' => 'Tswana', 'lg' => 'Ganda', 'lb' => 'Luxembourgish', 'ty' => 'Tahitian', 'es-ar' => 'Spanish, Argentinian', 'tt' => 'Tartar', 'tr' => 'Turkish', 'ts' => 'Tsonga', 'li' => 'Limburgish', 'lv' => 'Latvian', 'to' => 'Tonga', 'lt' => 'Lithuanian', 'lu' => 'Luba-Katagana', 'tk' => 'Turkmen', 'th' => 'Thai', 'fy-nl' => 'Frisian', 'tg' => 'Tajik', 'lkt' => 'Lakota', 'te' => 'Telugu', 'hau' => 'Hausa', 'fil' => 'Filipino', 'ta' => 'Tamil', 'yi' => 'Yiddish', 'amh' => 'Amharic', 'ceb' => 'Cebuano', 'mos' => 'Mossi', 'meta-geo' => 'Metadata: Geo', 'de' => 'German', 'da' => 'Danish', 'moh' => 'Mohawk', 'dz' => 'Dzongkha', 'dv' => 'Divehi', 'zh-hk' => 'Chinese, Traditional (Hong Kong)', 'ibo' => 'Igbo', 'pam' => 'Kapampangan', 'mnk' => 'Mandinka', 'pan' => 'Eastern Punjabi', 'bam' => 'Bambara', 'el' => 'Greek', 'eo' => 'Esperanto', 'en' => 'English', 'zh' => 'Chinese, Yue', 'ee' => 'Ewe', 'xho' => 'Xhosa', 'za' => 'Zhuang, Chuang', 'meta-wiki' => 'Metadata: Wikipedia', 'eu' => 'Basque', 'et' => 'Estonian', 'tet' => 'Tetum', 'es' => 'Spanish', 'lua' => 'Luba-Kasai', 'en-gb' => 'English, British', 'ru' => 'Russian', 'ful' => 'Fula', 'ff' => 'Fulah', 'luy' => 'Luhya', 'ast' => 'Asturian', 'ry' => 'Rusyn', 'wol' => 'Wolof', 'iro' => 'Iroquoian languages', 'rm' => 'Romansh', 'ro' => 'Romanian', 'bn' => 'Bengali', 'luo' => 'Luo', 'be' => 'Belarusian', 'bg' => 'Bulgarian', 'run' => 'Rundi', 'ba' => 'Bashkir', 'wa' => 'Walloon', 'hai' => 'Haida', 'zh-sg' => 'Chinese, Simplified (Singaporean)', 'jv' => 'Javanese', 'bo' => 'Tibetan', 'bh' => 'Bihari', 'bi' => 'Bislama', 'orm' => 'Oromo', 'meta-tw' => 'Metadata: Twitter', 'ase' => 'American Sign Language', 'bs' => 'Bosnian', 'rup' => 'Macedo', 'ss' => 'Swati', 'ja' => 'Japanese', 'umb' => 'Umbundu', 'fa' => 'Persian', 'ilo' => 'Ilocano', 'la' => 'Latin', 'oc' => 'Occitan', 'srp' => 'Montenegrin', 'tw' => 'Twi', 'que' => 'Quechua', 'aka' => 'Akan', 'tlh' => 'Klingon', 'os' => 'Ossetian, Ossetic', 'zh-cn' => 'Chinese, Simplified', 'zul' => 'Zulu', 'kin' => 'Rwandi', 'ch' => 'Chamorro', 'co' => 'Corsican', 'br' => 'Breton', 'nso' => 'Northern Sotho', 'ca' => 'Catalan', 'som' => 'Somali', 'ce' => 'Chechen', 'skx' => 'Seko Padang', 'cy' => 'Welsh', 'sr-latn' => 'Serbian, Latin', 'sot' => 'Sotho', 'cs' => 'Czech', 'cr' => 'Cree', 'es-mx' => 'Spanish, Mexican', 'cv' => 'Chuvash', 'cu' => 'Church Slavic', 'ps' => 'Pashto', 'or' => 'Oriya', 'pt' => 'Portuguese', 'kon' => 'Kongo', 'swa' => 'Swahili', 'zh-tw' => 'Chinese, Traditional', 'tl' => 'Tagalog', 'cho' => 'Choctaw', 'pi' => 'Pali', 'pl' => 'Polish', 'hz' => 'Herero', 'hy' => 'Armenian', 'hr' => 'Croatian', 'kn' => 'Kannada', 'ht' => 'Creole, Haitian', 'hu' => 'Hungarian', 'hi' => 'Hindi', 'hup' => 'Hupa', 'ho' => 'Hiri Motu', 'pnb' => 'Western Punjabi', 'bug' => 'Buginese', 'he' => 'Hebrew', 'haz' => 'Hazaragi', 'es-ni' => 'Spanish, Nicaraguan', 'mlg' => 'Malagasy', 'uz' => 'Uzbek', 'ml' => 'Malayalam', 'mo' => 'Moldavian, Moldovan', 'mn' => 'Mongolian', 'mi' => 'Maori', 'mh' => 'Marshallese', 'mk' => 'Macedonian', 'ur' => 'Urdu', 'mt' => 'Maltese', 'ms' => 'Malay', 'mr' => 'Marathi', 'ber' => 'Berber', 'ug' => 'Uyghur', 'my' => 'Burmese', 'aa' => 'Afar', 'ab' => 'Abkhazian', 'ae' => 'Avestan', 've' => 'Venda', 'af' => 'Afrikaans', 'vi' => 'Vietnamese', 'is' => 'Icelandic', 'iu' => 'Inuktitut', 'it' => 'Italian', 'an' => 'Aragonese', 'ii' => 'Sichuan Yi', 'ia' => 'Interlingua', 'ik' => 'Inupia', 'ar' => 'Arabic', 'inh' => 'Ingush', 'km' => 'Khmer', 'prs' => 'Dari', 'av' => 'Avaric', 'ay' => 'Aymara', 'az' => 'Azerbaijani', 'ie' => 'Interlingue', 'id' => 'Indonesian', 'as' => 'Assamese', 'pap' => 'Papiamento', 'sk' => 'Slovak', 'sr' => 'Serbian', 'nl' => 'Dutch', 'lo' => 'Lao', 'nn' => 'Norwegian Nynorsk', 'na' => 'Naurunan', 'nb' => 'Norwegian Bokmal', 'nd' => 'North Ndebele', 'ne' => 'Nepali', 'tir' => 'Tigrinya', 'ng' => 'Ndonga', 'efi' => 'Efik', 'vo' => 'Volapuk', 'bnt' => 'Ibibio', 'nr' => 'Southern Ndebele', 'nya' => 'Chewa', 'yor' => 'Yoruba', 'nv' => 'Navajo', 'fr' => 'French', 'sm' => 'Samoan', 'io' => 'Ido', 'sna' => 'Shona', 'kik' => 'Gikuyu', 'kar' => 'Karen', 'mad' => 'Madurese', 'kau' => 'Kanuri', 'fi' => 'Finnish', 'fj' => 'Fijian', 'sa' => 'Sanskrit', 'uk' => 'Ukrainian', 'fo' => 'Faroese', 'ka' => 'Georgian', 'arq' => 'Algerian Arabic', 'kk' => 'Kazakh', 'kj' => 'Kuanyama, Kwanyama', 'sq' => 'Albanian', 'ko' => 'Korean', 'sv' => 'Swedish', 'su' => 'Sundanese', 'kl' => 'Greenlandic', 'ks' => 'Kashmiri', 'si' => 'Sinhala', 'sh' => 'Serbo-Croatian', 'kw' => 'Cornish', 'kv' => 'Komi', 'ku' => 'Kurdish', 'sl' => 'Slovenian', 'sc' => 'Sardinian', 'ky' => 'Kyrgyz', 'sg' => 'Sango', 'lin' => 'Lingala', 'se' => 'Northern Sami', 'sd' => 'Sindhi'];
+foreach ($languages as &$l) {
+  $l = str_replace(':', '-', strToLower($l));
+  $l = str_replace(',', '-', $l);
+  $l = str_replace(' ', '', $l);
+}
 
+if (isset($_GET['language'])) {
+  $lang = array_search($_GET['language'], $languages);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -53,7 +64,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="#">Translation status</a>
+          <a class="brand" href="/">Translation status</a>
           <div class="nav-collapse collapse pull-right">
             <?php
             $mtime = filemtime(__DIR__ . '/../data/.');
@@ -87,6 +98,8 @@
                 }
 
                 $count = count(array_unique($data));
+                if ($count === 0)
+                  continue;
                 echo "<option value=\"$language\"" . (isset($_GET['language']) && $language === $_GET['language'] ? ' selected="selected"' : '') . ">$forlg ($count)</option>\n";
               }
             }
@@ -120,6 +133,7 @@
                 if ($date === date('Y-m-d', $t))
                   $count++;
               }
+
               $last_date = $date;
               echo "</table>\n<h2>" .
                 (
@@ -133,12 +147,16 @@
             }
             try {
               $meta = getYoutube($youtube_id);
-              $amara = getAmara($youtube_id);
+              $amara = getAmara($youtube_id, $lang);
             } catch (Exception $e) {
               echo "<tr><td colspan=\"3\">API limit exceeded, please try later for more results</td></tr>";
               break;
             }
-            $amara_url = "http://www.amara.org/cs/videos/{$amara->video_id}/cs/";
+            $uilang = 'en';
+            if (in_array($lang, ['ar', 'bg', 'cs', 'fr', 'he', 'it', 'pl', 'zh-cn', 'zh-tw'])) {
+              $uilang = $lang;
+            }
+            $amara_url = "http://www.amara.org/$uilang/videos/{$amara->video_id}/$lang/";
             $amara_text = truncate($amara->subtitles->title, 6) ?: "amara link";
             $youtube_text = truncate($meta->data->title, 6) ?: "khan academy link";
             echo "<tr><td><button title=\"test\" data-clipboard-text=\"$youtube_id\"></button> <a href=\"http://www.youtube.com/watch/?v=$youtube_id\"><code>$youtube_id</code></a></td><td><a href=\"$amara_url\" target=\"_blank\">$amara_text</a></td><td><a href=\"http://www.khanacademy.org/video?v=$youtube_id\">$youtube_text</a></td></tr>";
@@ -206,14 +224,17 @@ function getYoutube($youtube_id)
   return $meta;
 }
 
-function getAmara($youtube_id) {
-  $cache = __DIR__ . "/cache/amara_" . str_replace('=', '', base64_encode($youtube_id));
+
+function getAmara($youtube_id, $lang) {
+  $cache = __DIR__ . "/cache/amara_{$lang}_" . str_replace('=', '', base64_encode($youtube_id));
   $meta = NULL;
+
   if (file_exists($cache)) {
-    return unserialize(file_get_contents($cache));
+    $meta = unserialize(file_get_contents($cache));
+    return $meta;
   }
   if (!$meta) {
-    $url = 'http://www.universalsubtitles.org/widget/rpc/jsonp/show_widget?video_url=' . urlencode("\"http://www.youtube.com/watch?v={$youtube_id}\"") . '&is_remote=true&base_state=%7B%22language%22%3A%22cs%22%7D&callback=';
+    $url = 'http://www.universalsubtitles.org/widget/rpc/jsonp/show_widget?video_url=' . urlencode("\"http://www.youtube.com/watch?v={$youtube_id}\"") . '&is_remote=true&base_state=%7B%22language%22%3A%22' . $lang .'%22%7D&callback=';
     $res = "[" . substr(@file_get_contents($url), 1, -2) . "]"; // remove colon and parenthesis
     $meta = json_decode($res);
     $id = NULL;
