@@ -4,6 +4,10 @@ require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/TemplateRouter.php';
 $languages = require __DIR__ . '/languages.php';
 
+if (extension_loaded('newrelic')) {
+  newrelic_set_appname('khan-report.khanovaskola.cz');
+}
+
 $configurator = new Nette\Configurator;
 $configurator->enableDebugger(__DIR__ . '/../log');
 $configurator->setTempDirectory(__DIR__ . '/../temp');
