@@ -12,7 +12,7 @@ define('TEMP_FILE', __DIR__ . '/status.tgz');
 define('DATA_DIR', __DIR__ . '/data');
 
 $file_last = DATA_DIR . '/' . date('Y-m-d') . '.xls';
-/*
+//*
 echo "downloading...\n";
 file_put_contents(TEMP_FILE, file_get_contents(URL));
 echo "done\n";
