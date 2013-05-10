@@ -159,7 +159,7 @@ if (isset($_GET['language'])) {
             $amara_url = "http://www.amara.org/$uilang/videos/{$amara->video_id}/$lang/";
             $amara_text = truncate($amara->subtitles->title, 6) ?: "amara link";
             $youtube_text = truncate($meta->data->title, 6) ?: "khan academy link";
-            echo "<tr><td><button title=\"test\" data-clipboard-text=\"$youtube_id\"></button> <a href=\"http://www.youtube.com/watch/?v=$youtube_id\"><code>$youtube_id</code></a></td><td><a href=\"$amara_url\" target=\"_blank\">$amara_text</a></td><td><a href=\"http://www.khanacademy.org/video?v=$youtube_id\">$youtube_text</a></td></tr>";
+            echo "<tr><td><button title=\"test\" data-clipboard-text=\"$youtube_id\"></button> <a href=\"http://www.youtube.com/watch/?v=$youtube_id\" target=\"_blank\"><code>$youtube_id</code></a></td><td><a href=\"$amara_url\" target=\"_blank\">$amara_text</a></td><td><a href=\"http://www.khanacademy.org/video?v=$youtube_id\" target=\"_blank\">$youtube_text</a></td></tr>";
           }
         ?>
         </table>
