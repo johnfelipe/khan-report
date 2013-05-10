@@ -3,6 +3,7 @@
 		"production": "/srv/sites/khan-report.khanovaskola.cz"
 	},
 	"post-update": [
-		"sudo chown -R www-data:web-mikulas . && sudo chmod -R ug+rwx . && sudo chmod -R o-rwx ."
+		"sudo chown -R www-data:web-mikulas . && sudo chmod -R ug+rwx . && sudo chmod -R o-rwx .",
+		"sudo rm -rf temp/routes.php && sudo rm -rf temp/cache/_Nette.*"
 	]
 }
