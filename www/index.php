@@ -24,6 +24,10 @@
       .hero-unit {padding: 20px;}
       h1 {padding-bottom: 1ex;}
       .chzn-container {margin-top: 1px; font-size: 10pt;}
+
+      table tr td {white-space: nowrap; overflow: hidden; max-width: 500px;}
+      table tr td:first-of-type {width: 120px;}
+      table tr td:nth-of-type(2) {width: 410px;}
     </style>
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -95,7 +99,7 @@
       <?php
       if (isset($_GET['language'])):
       ?>
-        <ul>
+        <table class="table table-striped">
         <?php
           $language = str_replace('.', '', str_replace('/', '', $_GET['language']));
           $raw = file_get_contents(__DIR__ . "/../data/times_$language");
@@ -117,7 +121,7 @@
                   $count++;
               }
               $last_date = $date;
-              echo "</ul>\n<hr>\n<h2>" .
+              echo "</table>\n<h2>" .
                 (
                   $date === date('Y-m-d') ?
                     "Today" :
@@ -125,26 +129,25 @@
                     "Yesterday" :
                     "$date (" . timeAgoInWords($time) . ")"
                 ) .
-                " ($count)</h2>\n<ul>";
+                " ($count)</h2>\n<table class=\"table table-striped\">";
             }
-            @mkdir(__DIR__ . '/cache'); // @ - may already exist
-            $cache = __DIR__ . "/cache/" . str_replace('=', '', base64_encode($youtube_id));
-            $meta = NULL;
-            if (file_exists($cache)) {
-              $meta = unserialize(file_get_contents($cache));
+            try {
+              $meta = getYoutube($youtube_id);
+              $amara = getAmara($youtube_id);
+            } catch (Exception $e) {
+              echo "<tr><td colspan=\"3\">API limit exceeded, please try later for more results</td></tr>";
+              break;
             }
-            if (!$meta) {
-              $meta = json_decode(file_get_contents("http://gdata.youtube.com/feeds/api/videos/$youtube_id?v=2&alt=jsonc&prettyprint=false"));
-              file_put_contents($cache, serialize($meta));
-            }
-            echo "<li><button title=\"test\" data-clipboard-text=\"$youtube_id\"></button> <a href=\"http://www.youtube.com/watch/?v=$youtube_id\"><code>$youtube_id</code></a> <a href=\"http://www.khanacademy.org/video?v=$youtube_id\">{$meta->data->title}</a></li>";
+            $amara_url = "http://www.amara.org/cs/videos/{$amara->video_id}/cs/";
+            $amara_text = truncate($amara->subtitles->title, 6) ?: "amara link";
+            $youtube_text = truncate($meta->data->title, 6) ?: "khan academy link";
+            echo "<tr><td><button title=\"test\" data-clipboard-text=\"$youtube_id\"></button> <a href=\"http://www.youtube.com/watch/?v=$youtube_id\"><code>$youtube_id</code></a></td><td><a href=\"$amara_url\" target=\"_blank\">$amara_text</a></td><td><a href=\"http://www.khanacademy.org/video?v=$youtube_id\">$youtube_text</a></td></tr>";
           }
         ?>
-        </ul>
+        </table>
       <?php
       endif;
       ?>
-      <hr>
 
       <footer>
         <p>&copy; <a href="http://twitter.com/mikulasdite" target="_blank">Mikuláš Dítě</a> 2013, released for Khanova škola Czech Republic <a href="https://khanovaskola.cz" target="_blank">khanovaskola.cz</a></p>
@@ -174,6 +177,54 @@
   </body>
 </html>
 <?php
+
+function truncate($text, $limit) {
+  $new = $text;
+  if (str_word_count($text, 0) > $limit) {
+      $words = str_word_count($text, 2);
+      $pos = array_keys($words);
+      $new = trim(mb_substr($text, 0, $pos[$limit])) . '&hellip;';
+  }
+  return $new;
+}
+
+function getYoutube($youtube_id)
+{
+  @mkdir(__DIR__ . '/cache'); // @ - may already exist
+  $cache = __DIR__ . "/cache/youtube_" . str_replace('=', '', base64_encode($youtube_id));
+  $meta = NULL;
+  if (file_exists($cache)) {
+    $meta = unserialize(file_get_contents($cache));
+  }
+  if (!$meta) {
+    $meta = json_decode(@file_get_contents("http://gdata.youtube.com/feeds/api/videos/$youtube_id?v=2&alt=jsonc&prettyprint=false"));
+    if (!$meta) {
+      throw new Exception;
+    }
+    file_put_contents($cache, serialize($meta));
+  }
+  return $meta;
+}
+
+function getAmara($youtube_id) {
+  $cache = __DIR__ . "/cache/amara_" . str_replace('=', '', base64_encode($youtube_id));
+  $meta = NULL;
+  if (file_exists($cache)) {
+    return unserialize(file_get_contents($cache));
+  }
+  if (!$meta) {
+    $url = 'http://www.universalsubtitles.org/widget/rpc/jsonp/show_widget?video_url=' . urlencode("\"http://www.youtube.com/watch?v={$youtube_id}\"") . '&is_remote=true&base_state=%7B%22language%22%3A%22cs%22%7D&callback=';
+    $res = "[" . substr(@file_get_contents($url), 1, -2) . "]"; // remove colon and parenthesis
+    $meta = json_decode($res);
+    $id = NULL;
+    if (!$meta) {
+      throw new Exception;
+    }
+    $meta = $meta[0];
+    file_put_contents($cache, serialize($meta));
+    return $meta;
+  }
+}
 
 function timeAgoInWords($time) {
     if (!$time) {
