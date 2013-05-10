@@ -12,11 +12,7 @@
         <select type="text" name="lang" class="input-large chzn-select" data-placeholder="Choose your language&hellip;">
           {foreach $languages as $language}
             <?php
-              $ids = [];
-              foreach (getTranslations($language[2]) as $node) {
-                $ids[] = $node[1];
-              }
-              $count = count(array_unique($ids));
+              $count = getLanguageCount($language[2]);
               if (!$count)
                 continue;
             ?>

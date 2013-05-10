@@ -52,6 +52,15 @@ function getTranslations($language)
   return $data;
 }
 
+function getLanguageCount($language)
+{
+  $ids = [];
+  foreach (getTranslations($language) as $node) {
+    $ids[] = $node[1];
+  }
+  return count(array_unique($ids));
+}
+
 function getYoutube($youtube_id)
 {
   @mkdir(__DIR__ . '/cache'); // @ - may already exist
