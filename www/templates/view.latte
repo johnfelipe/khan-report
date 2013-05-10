@@ -1,0 +1,67 @@
+{url recent/?lang=<lang>}
+{layout "@layout.latte"}
+{?global $languages}
+
+<?php
+$language = '';
+
+foreach ($languages as $node) {
+	if ($node[2] === $lang) {
+		$language = $node[0];
+		break;
+	}
+}
+?>
+
+{#content}
+	<h1>New translations for {$language}</h1>
+	<?php
+		$data = getTranslations($lang);
+		usort($data, function($a, $b) {
+			return $a[0] < $b[0];
+		});
+		$days = [];
+		foreach ($data as $node) {
+			$day = date('Y-m-d', $node[0]);
+			$days[$day][] = $node[1];
+		}
+	?>
+	{foreach $days as $day => $videos}
+		<h2>
+			{if $day === date('2013-05-10')}
+				At the very beginning of time
+			{elseif $day === date('Y-m-d')}
+				Today
+			{elseif $day === date('Y-m-d')}
+				Yesterday
+			{else}
+				{$day} &mdash; {timeAgoInWords($day)}
+			{/if}
+			({count($videos)})
+		</h2>
+		<table class="table table-striped">
+			<tr n:foreach="$videos as $video">
+				<?php
+					$uilang = 'en';
+					if (in_array($lang, ['ar', 'bg', 'cs', 'fr', 'he', 'it', 'pl', 'zh-cn', 'zh-tw'])) {
+						$uilang = $lang;
+					}
+
+					$amara = getAmara($video, $lang);
+					$amara_url = "http://www.amara.org/$uilang/videos/{$amara->video_id}/$lang/";
+					$youtube = getYoutube($video);
+				?>
+				<tr>
+					<td>
+						<button data-clipboard-text="{$video}"></button> <a href="http://www.youtube.com/watch/?v={$video}" target="_blank"><code>{$video}</code></a>
+					</td>
+					<td>
+						<a href="{$amara_url}" target="_blank">{$amara->subtitles->title ?: '(title not translated)'|truncate:60}</a>
+					</td>
+					<td>
+						<a href="http://www.khanacademy.org/video?v={$video}" target="_blank">{$youtube->data->title ?: '(Khan Academy link)'|truncate:60}</a>
+					</td>
+				</tr>
+			</tr>
+		</table>
+	{/foreach}

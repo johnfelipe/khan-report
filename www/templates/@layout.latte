@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>New translated content on Khan Academy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/chosen.css" rel="stylesheet">
+    <style type="text/css" n:syntax="off">
+      .hero-unit h1 {font-size: 20pt;}
+      /* zeroclipboard */
+      [data-clipboard-text] {width: 16px; height: 16px; border: none; text-align:center; background: url('/img/copy.png') no-repeat; opacity: .6}
+      [data-clipboard-text].zeroclipboard-is-hover {opacity: 1}
+      [data-clipboard-text].zeroclipboard-is-active {background-color: green}
+      ul {list-style: none;}
+      li {margin-bottom: 1ex;}
+      h2 {font-size: 14pt;}
+
+      .hero-unit {padding: 20px;}
+      h1 {padding-bottom: 1ex;}
+      .chzn-container {margin-top: 1px; font-size: 10pt;}
+
+      table tr td {white-space: nowrap; overflow: hidden; max-width: 500px;}
+      table tr td:first-of-type {width: 120px;}
+      table tr td:nth-of-type(2) {width: 410px;}
+    </style>
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../assets/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+                    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+                                   <link rel="shortcut icon" href="../assets/ico/favicon.png">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-static-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="/">Translation status</a>
+          <div class="nav-collapse collapse pull-right">
+          	{var $running = isDaemonRunning()}
+          	<p class="navbar-text"><span class="label label-{$running ? 'success' : 'important'}">{$running ? 'service is running' : 'service stopped'}</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      {include #content}
+
+      <footer>
+        <p>&copy; <a href="http://twitter.com/mikulasdite" target="_blank">Mikuláš Dítě</a> {=date('Y')}, released for Khanova škola Czech Republic <a href="https://khanovaskola.cz" target="_blank">khanovaskola.cz</a></p>
+        <p>If you have any feature request or issue to report, please contact me <a href="http://twitter.com/mikulasdite" target="_blank">@MikulasDite</a> or at <a href="mailto:mikulas@khanovaskola.cz" target="_blank">mikulas@khanovaskola.cz</a>.
+      </footer>
+
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!--<script src="/js/bootstrap.min.js"></script>-->
+    <script src="/js/jquery-1.9.1.min.js"></script>
+    <script src="/js/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="/js/chosen.jquery.min.js"></script>
+    <script src="/js/ZeroClipboard.min.js"></script>
+    <script src="/js/jquery.pulse.min.js"></script>
+    <script n:syntax="off">
+      $(".chzn-select").chosen({no_results_text: "Language not supported"});
+      ZeroClipboard.setDefaults({moviePath: '/js/ZeroClipboard.swf'});
+      var clip = new ZeroClipboard($("button[data-clipboard-text]"));
+      clip.on('complete', function(client, args) {
+        var sibs = $("[data-clipboard-text=\"" + args.text + "\"]").siblings('a:first-of-type').find('code');
+        sibs.pulse({backgroundColor: 'rgb(200, 230, 170)'}, {pulses: 2, duration: 200});
+      });
+    </script>
+  </body>
+</html>

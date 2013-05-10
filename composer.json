@@ -1,0 +1,12 @@
+{
+	"name": "khanovaskola/khan-report.khanovaskola.cz",
+	"description": "Periodicaly checks for translation status",
+	"homepage": "http://khan-report.khanovaskola.cz",
+	"license": ["BSD-3-Clause"],
+	"authors": [{"name": "Mikulas Dite"}],
+	"minimum-stability": "dev",
+	"require": {
+		"php": ">=5.4.0",
+		"nette/nette": "dev-master"
+	}
+}
