@@ -4,7 +4,6 @@ require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/TemplateRouter.php';
 $languages = require __DIR__ . '/languages.php';
 
-
 $configurator = new Nette\Configurator;
 $configurator->enableDebugger(__DIR__ . '/../log');
 $configurator->setTempDirectory(__DIR__ . '/../temp');
@@ -15,7 +14,8 @@ $container->application->run();
 
 function isDaemonRunning()
 {
-  return `ps aug | grep daemon.php | wc -l` >= 2;
+  $processes = (int) trim(`ps aux | grep daemon.php | wc -l`);
+  return $processes >= 2; // grep and deamon itself
 }
 
 function getTranslations($language)
