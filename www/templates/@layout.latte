@@ -70,6 +70,14 @@
       <footer>
         <p>&copy; <a href="http://twitter.com/mikulasdite" target="_blank">Mikuláš Dítě</a> {=date('Y')}, released for Khanova škola Czech Republic <a href="https://khanovaskola.cz" target="_blank">khanovaskola.cz</a></p>
         <p>If you have any feature request or issue to report, please contact me <a href="http://twitter.com/mikulasdite" target="_blank">@MikulasDite</a> or at <a href="mailto:mikulas@khanovaskola.cz" target="_blank">mikulas@khanovaskola.cz</a>.
+        <?php
+          $cycles = explode("\n", file_get_contents(__DIR__ . '/../../../cycles.dat'));
+          array_pop($cycles); // last newline
+          $first = $cycles[0];
+          $last = end($cycles);
+        ?>
+        <p n:if="$first === $last">Average time per cycle: not enough data</p>
+        <p n:if="$first !== $last">Average time per cycle: {(time() - $first) / count($cycles) |date:'H:i:s'}</p>
       </footer>
 
     </div> <!-- /container -->
