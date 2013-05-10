@@ -11,29 +11,31 @@ define('URL', 'http://khan-report.appspot.com/translations/subtitlestatus?downlo
 define('TEMP_FILE', __DIR__ . '/status.tgz');
 define('DATA_DIR', __DIR__ . '/data');
 
+echo "\n\n#############\n" . date('Y-m-d h:i:s'). "\n";
+
 $file_last = DATA_DIR . '/' . date('Y-m-d') . '.xls';
 //*
 echo "downloading...\n";
 file_put_contents(TEMP_FILE, file_get_contents(URL));
-echo "done\n";
+echo "\tdone\n";
 
 echo "untar...\n";
 if (file_exists('/Volumes')) {
-	`tar zxvf status.tgz`;
+	`tar zxvf /Volumes/Cifrita/Web/ka_changes/status.tgz -C /Volumes/Cifrita/Web/ka_changes/`;
 } else {
-	`tar zxvf /srv/sites/khan-report.khanovaskola.cz/status.tgz`;
+	`tar zxvf /srv/sites/khan-report.khanovaskola.cz/status.tgz -C /srv/sites/khan-report.khanovaskola.cz/`;
 }
-echo "done\n";
+echo "\tdone\n";
 
 echo "process temp files\n";
 @mkdir(DATA_DIR); // @ - dir may exist
 rename(__DIR__ . '/subtitle_data.xls', $file_last);
-echo "done\n";
+echo "\tdone\n";
 
 echo "remove temp files\n";
 unlink(__DIR__ . '/subtitles.xls');
 unlink(__DIR__ . '/status.tgz');
-echo "done\n";
+echo "\tdone\n";
 //*/
 echo "read new xls\n";
 
@@ -48,7 +50,7 @@ for ($row = 2; $row < $rowcount; ++$row) {
 	$done = $reader->val($row, 5, 1) === 100;
 	$language = $reader->val($row, 4, 1);
 
-	if (!isset($newdata[$language])) {
+	if ($language && !isset($newdata[$language])) {
 		// we need to iterate over every language later
 		$newdata[$language] = [];
 	}
@@ -62,7 +64,7 @@ for ($row = 2; $row < $rowcount; ++$row) {
 	$newdata[$language][] = $youtube_id;
 }
 unset($reader);
-echo "done\n";
+echo "\tdone\n";
 
 var_dump("test, removing " . $newdata['Greek'][0]);
 var_dump(count($newdata['Greek']));
@@ -86,7 +88,7 @@ foreach ($newdata as $language => $data) {
 	$removed = array_unique(array_diff($old, $data));
 
 	$output = '';
-	foreach (explode("\n", file_get_contents($file)) as $line) {
+	foreach (explode("\n", @file_get_contents($file)) as $line) { // @ - file might not exist
 		list($id) = explode(" ", $line);
 		if (!in_array($id, $removed)) {
 			$output .= "$line\n";
@@ -99,11 +101,11 @@ foreach ($newdata as $language => $data) {
 
 	file_put_contents($file, $output);
 }
-echo "done\n";
+echo "\tdone\n";
 
 echo "remove data file\n";
 unlink($file_last);
-echo "done\n";
+echo "\tdone\n";
 
 echo "end\n";
 
