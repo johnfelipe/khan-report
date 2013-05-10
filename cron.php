@@ -18,7 +18,11 @@ file_put_contents(TEMP_FILE, file_get_contents(URL));
 echo "done\n";
 
 echo "untar...\n";
-`tar zxvf status.tgz`;
+if (file_exists('/Volumes')) {
+	`tar zxvf status.tgz`;
+} else {
+	`tar zxvf /srv/sites/khan-report.khanovaskola.cz/status.tgz`;
+}
 echo "done\n";
 
 echo "process temp files\n";
