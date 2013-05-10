@@ -39,7 +39,7 @@ function getTranslations($language)
   $handle = fopen(__DIR__ . "/../translations.dat", "r");
   $data = [];
   while (!feof($handle)) {
-    $line = fgets($handle);
+    $line = trim(fgets($handle));
     if (!$line)
       continue;
 
