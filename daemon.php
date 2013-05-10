@@ -31,7 +31,7 @@ echo "Daemon started\n";
 // daemon loop
 for (;;) {
 	if (feof($handle)) {
-		file_put_contents('cycles.dat', time() . "\n", FILE_APPEND);
+		file_put_contents(__DIR__ . '/cycles.dat', time() . "\n", FILE_APPEND);
 		fseek($handle, 0);
 	}
 
