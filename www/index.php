@@ -44,7 +44,7 @@ function getTranslations($language)
       continue;
 
     list($time, $youtube_id, $langs) = explode("\t", $line);
-    if (strpos($langs, $language) !== FALSE) {
+    if (in_array($language, explode(';', $langs))) {
       $data[] = [$time, $youtube_id];
     }
   }
