@@ -14,8 +14,8 @@ $container->application->run();
 
 function isDaemonRunning()
 {
-  $processes = (int) trim(`ps aux | grep daemon.php | wc -l`);
-  return $processes >= 2; // grep and deamon itself
+  $processes = (int) trim(`ps aux | grep daemon.php | grep grep -v | wc -l`);
+  return $processes > 0;
 }
 
 function getTranslations($language)
