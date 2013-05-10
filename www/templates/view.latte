@@ -25,6 +25,11 @@ foreach ($languages as $node) {
 			$day = date('Y-m-d', $node[0]);
 			$days[$day][] = $node[1];
 		}
+
+		// this is mainly for the very first import
+		foreach ($days as &$day) {
+			$day = array_unique($day);
+		}
 	?>
 	{foreach $days as $day => $videos}
 		<h2>
