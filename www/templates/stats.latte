@@ -1,38 +1,42 @@
 {url stats}
 {layout "@layout.latte"}
 {?global $languages}
+{var $netteCacheStorage = new Nette\Caching\Storages\FileStorage(__DIR__ . '/../../..')}
 
-<?php
-$counts = [];
-$max = 0;
-foreach ($languages as $lang) {
-	// that is not a translation, strictly speeking
-	if ($lang[2] == 'en') {
-		continue;
-	}
-
-	$count = getLanguageCount($lang[2]);
-	$counts[$lang[0]] = [$count, $lang[2]];
-	if ($count > $max) {
-		$max = $count;
-	}
-}
-uasort($counts, function($a, $b) {
-	return $a[0] < $b[0];
-});
-?>
 
 {#content}
 	<h1>Translation statistics</h1>
-	<h2>Most translated languages</h2>
-	<table class="table table-striped">
-		<tr n:foreach="array_slice($counts, 0, 10) as $country => $node"{if $node[1] === 'cs'} class="info"{/if}>
-			<td style="text-align: right"><a href="view/?lang={$node[1]}">{$country}<a></td>
-			<td style="width: 1.5em">{$node[0]}</td>
-			<td>
-				<div class="progress">
-				  <div class="bar bar-success" style="width: {! $node[0] / $max * 100}%;"></div>
-				</div>
-			</td>
-		</tr>
-	</table>
+
+	{cache expire => '+30 minutes'}
+		<?php
+		$counts = [];
+		$max = 0;
+		foreach ($languages as $lang) {
+			// that is not a translation, strictly speeking
+			if ($lang[2] == 'en') {
+				continue;
+			}
+
+			$count = getLanguageCount($lang[2]);
+			$counts[$lang[0]] = [$count, $lang[2]];
+			if ($count > $max) {
+				$max = $count;
+			}
+		}
+		uasort($counts, function($a, $b) {
+			return $a[0] < $b[0];
+		});
+		?>
+		<h2>Most translated languages</h2>
+		<table class="table table-striped">
+			<tr n:foreach="array_slice($counts, 0, 10) as $country => $node"{if $node[1] === 'cs'} class="info"{/if}>
+				<td style="text-align: right"><a href="view/?lang={$node[1]}">{$country}<a></td>
+				<td style="width: 1.5em">{$node[0]}</td>
+				<td>
+					<div class="progress">
+					  <div class="bar bar-success" style="width: {! $node[0] / $max * 100}%;"></div>
+					</div>
+				</td>
+			</tr>
+		</table>
+	{/cache}
