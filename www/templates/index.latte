@@ -5,7 +5,7 @@
 
 
 {#content}
-	{cache expire => '+1 day'}
+	{cache expire => '+5 hours'}
     <div class="hero-unit">
       <h1>Find what videos has recenly been translated&mdash;in a user-friendly way.</h1>
       <form class="form-search" action="recent">
@@ -21,7 +21,7 @@
                 continue;
             ?>
             <option value="{$language[2]}">
-              {$language[0]} ({$count})
+              {$language[0]} (~{$count})
             </option>
           {/foreach}
         </select>
