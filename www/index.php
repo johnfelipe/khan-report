@@ -18,6 +18,22 @@ function isDaemonRunning()
   return $processes > 0;
 }
 
+function getLastTimestamp()
+{
+  // read last result
+  $fp = fopen(__DIR__ . '/../translations.dat', "r");
+  $pos = -2; // skip first newline
+  do {
+    fseek($fp, $pos, SEEK_END);
+    $char = fgetc($fp);
+    $pos--;
+  } while ($char !== "\n");
+  $time = explode("\t", fgets($fp))[0];
+  fclose($fp);
+
+  return $time;
+}
+
 function getTranslations($language)
 {
   $handle = fopen(__DIR__ . "/../translations.dat", "r");
