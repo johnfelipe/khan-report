@@ -150,7 +150,7 @@ return $languages = [
 ['Slovene', 'slovenski jezik, slovenščina', 'sl'],
 ['Somali', 'Soomaaliga, af Soomaali', 'so'],
 ['Southern Sotho', 'Sesotho', 'st'],
-['Spanish; Castilian', 'español, castellano', 'es'],
+['Spanish', 'español, castellano', 'es'],
 ['Sundanese', 'Basa Sunda', 'su'],
 ['Swahili', 'Kiswahili', 'sw'],
 ['Swati', 'SiSwati', 'ss'],
