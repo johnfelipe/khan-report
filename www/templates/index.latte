@@ -10,9 +10,20 @@
       <h1>Find what videos has recenly been translated&mdash;in a user-friendly way.</h1>
       <form class="form-search" action="recent">
         <select type="text" name="lang" class="input-large chzn-select" data-placeholder="Choose your language&hellip;">
-          <option n:foreach="$languages as $language" value="{$language[2]}">
-            {$language[0]} ({count(getTranslations($language[2]))})
-          </option>
+          {foreach $languages as $language}
+            <?php
+              $ids = [];
+              foreach (getTranslations($language[2]) as $node) {
+                $ids[] = $node[1];
+              }
+              $count = count(array_unique($ids));
+              if (!$count)
+                continue;
+            ?>
+            <option value="{$language[2]}">
+              {$language[0]} ({$count})
+            </option>
+          {/foreach}
         </select>
         <button type="submit" class="btn btn-primary">Show content</button>
       </form>
