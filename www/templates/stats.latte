@@ -4,7 +4,13 @@
 
 <?php
 $counts = [];
+$max = 0;
 foreach ($languages as $lang) {
+	// that is not a translation, strictly speeking
+	if ($lang[2] == 'en') {
+		continue;
+	}
+
 	$count = getLanguageCount($lang[2]);
 	$counts[$lang[0]] = [$count, $lang[2]];
 	if ($count > $max) {
