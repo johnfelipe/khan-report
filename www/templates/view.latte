@@ -21,16 +21,41 @@ foreach ($languages as $node) {
 		usort($data, function($a, $b) {
 			return $a[0] < $b[0];
 		});
+
 		$days = [];
+		$pool = [];
+		$last_day = NULL;
 		foreach ($data as $node) {
 			$day = date('Y-m-d', $node[0]);
-			$days[$day][] = $node[1];
+			if ($day !== $last_day) {
+				foreach ($pool as $i => $id) {
+					$remove_from_pool = TRUE;
+					foreach ($data as $n) {
+						if ($day === date('Y-m-d', $n[0]) && $n[1] === $id) {
+							$remove_from_pool = FALSE;
+							break;
+						}
+					}
+					if ($remove_from_pool) {
+						unset($pool[$i]);
+					}
+				}
+			}
+
+			if (!in_array($node[1], $pool)) {
+				$days[$day][] = $node[1];
+				$pool[] = $node[1];
+			}
+
+			$last_day = $day;
 		}
 
 		// this is mainly for the very first import
 		foreach ($days as &$day) {
 			$day = array_unique($day);
 		}
+
+		dump($days);die;
 	?>
 	{foreach $days as $day => $videos}
 		<h2>
@@ -45,31 +70,29 @@ foreach ($languages as $node) {
 			{/if}
 			({count($videos)})
 		</h2>
-		{cache $day}
-			<table class="table table-striped">
-				<tr n:foreach="$videos as $video">
-					<?php
-						$uilang = 'en';
-						if (in_array($lang, ['ar', 'bg', 'cs', 'fr', 'he', 'it', 'pl', 'zh-cn', 'zh-tw'])) {
-							$uilang = $lang;
-						}
+		<table class="table table-striped">
+			<tr n:foreach="$videos as $video">
+				<?php
+					$uilang = 'en';
+					if (in_array($lang, ['ar', 'bg', 'cs', 'fr', 'he', 'it', 'pl', 'zh-cn', 'zh-tw'])) {
+						$uilang = $lang;
+					}
 
-						$amara = getAmara($video, $lang);
-						$amara_url = "http://www.amara.org/$uilang/videos/{$amara->video_id}/$lang/";
-						$youtube = getYoutube($video);
-					?>
-					<tr>
-						<td>
-							<button data-clipboard-text="{$video}"></button> <a href="http://www.youtube.com/watch/?v={$video}" target="_blank"><code>{$video}</code></a>
-						</td>
-						<td>
-							<a href="{$amara_url}" target="_blank">{$amara->subtitles->title ?: '(title not translated)'|truncate:60}</a>
-						</td>
-						<td>
-							<a href="http://www.khanacademy.org/video?v={$video}" target="_blank">{$youtube->data->title ?: '(Khan Academy link)'|truncate:60}</a>
-						</td>
-					</tr>
+					$amara = getAmara($video, $lang);
+					$amara_url = "http://www.amara.org/$uilang/videos/{$amara->video_id}/$lang/";
+					$youtube = getYoutube($video);
+				?>
+				<tr>
+					<td>
+						<button data-clipboard-text="{$video}"></button> <a href="http://www.youtube.com/watch/?v={$video}" target="_blank"><code>{$video}</code></a>
+					</td>
+					<td>
+						<a href="{$amara_url}" target="_blank">{$amara->subtitles->title ?: '(title not translated)'|truncate:60}</a>
+					</td>
+					<td>
+						<a href="http://www.khanacademy.org/video?v={$video}" target="_blank">{$youtube->data->title ?: '(Khan Academy link)'|truncate:60}</a>
+					</td>
 				</tr>
-			</table>
-		{/cache}
+			</tr>
+		</table>
 	{/foreach}
