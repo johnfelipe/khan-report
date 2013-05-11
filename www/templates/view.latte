@@ -27,6 +27,7 @@ foreach ($languages as $node) {
 		$last_day = NULL;
 		foreach ($data as $node) {
 			$day = date('Y-m-d', $node[0]);
+
 			if ($day !== $last_day) {
 				foreach ($pool as $i => $id) {
 					$remove_from_pool = TRUE;
@@ -50,12 +51,12 @@ foreach ($languages as $node) {
 			$last_day = $day;
 		}
 
-		// this is mainly for the very first import
-		foreach ($days as &$day) {
-			$day = array_unique($day);
-		}
+		// this is mainly for the very first import - should not be neccesary with pool
+		//foreach ($days as &$day) {
+		//	$day = array_unique($day);
+		//}
 
-		arsort($days);
+		krsort($days);
 	?>
 	{foreach $days as $day => $videos}
 		<h2>
