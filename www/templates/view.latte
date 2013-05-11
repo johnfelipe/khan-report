@@ -46,16 +46,23 @@ foreach ($languages as $node) {
 					$amara_url = "http://www.amara.org/$uilang/videos/{$amara->video_id}/$lang/";
 					$youtube = getYoutube($video);
 				?>
-				<tr>
+				{var $completed = $lang === 'cs' && isVideoOnKs($video)}
+				<tr n:class="$completed ? completed">
 					<td>
 						<button data-clipboard-text="{$video}"></button> <a href="http://www.youtube.com/watch/?v={$video}" target="_blank"><code>{$video}</code></a>
 					</td>
-					<td>
-						<a href="{$amara_url}" target="_blank">{$amara->subtitles->title ?: '(title not translated)'|truncate:60}</a>
-					</td>
-					<td>
-						<a href="http://www.khanacademy.org/video?v={$video}" target="_blank">{$youtube->data->title ?: '(Khan Academy link)'|truncate:60}</a>
-					</td>
+					{if $completed}
+						<td colspan="2" class="complete">
+							<a href="" target="_blank">{$amara->subtitles->title ?: '(title not translated)'|truncate:60} (Khanova škola)</a>
+						</td>
+					{else}
+						<td>
+							<a href="{$amara_url}" target="_blank">{$amara->subtitles->title ?: '(title not translated)'|truncate:60}</a>
+						</td>
+						<td>
+							<a href="http://www.khanacademy.org/video?v={$video}" target="_blank">{$youtube->data->title ?: '(Khan Academy link)'|truncate:60}</a>
+						</td>
+					{/if}
 				</tr>
 			</tr>
 		</table>
