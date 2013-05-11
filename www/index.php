@@ -17,8 +17,17 @@ $configurator->addConfig(__DIR__ . '/../config.neon');
 $configurator->addConfig(__DIR__ . '/../config.local.neon');
 $container = $configurator->createContainer();
 
+$p = $container->parameters['database_ks'];
+$db_ks = new Nette\Database\Connection("mysql:host=localhost;dbname=khanovaskola", $p['user'], $p['password']);
+
 $container->addService('router', new TemplateRouter('templates', __DIR__ . '/../temp'));
 $container->application->run();
+
+function isVideoOnKs($youtube_id)
+{
+	global $db_ks;
+	return $db_ks->table('video')->where('youtube_id', $youtube_id)->count() === 1;
+}
 
 function isDaemonRunning()
 {
