@@ -18,16 +18,15 @@ foreach (scandir(__DIR__ . '/data') as $file) {
 	$match = [];
 	if (preg_match('~translations_(?<date>[0-9-]+)\.dat~', $file, $match)) {
 		$day = $match['date'];
-if (false && $day === date('Y-m-d')) {
+		/*if ($day === date('Y-m-d')) {
 			echo "Writing to $day is still in progress, skipping...\n";
 			continue;
-		}
+		}*/
 		if ($container->database->table('translation')->where('day', $day)->count()) {
 			echo "Results for $day seem to already be in database, skipping...\n";
 			continue;
 		}
 
-		$yesterday = date('Y-m-d', strToTime($day) - 3600 * 24);
 		$t = getTranslations(__DIR__ . "/data/$file", $day);
 		foreach ($t as $youtube_id => $languages) {
 			foreach ($languages as $language) {
@@ -35,7 +34,7 @@ if (false && $day === date('Y-m-d')) {
 					continue;
 				}
 
-				if ($container->database->table('translation')->where('day', $yesterday)->where('youtube_id', $youtube_id)->where('language', $language)->count() !== 0) {
+				if ($day === '2013-05-11' && $container->database->table('translation')->where('day', '2013-05-10')->where('youtube_id', $youtube_id)->where('language', $language)->count() !== 0) {
 					// this video has been translated yesterday or before, do not save as new
 					continue;
 				}
