@@ -1,0 +1,17 @@
+#
+# SECURITY WARNING: it is CRITICAL that this file & directory are NOT accessible directly via a web browser!
+# http://nette.org/security-warning
+#
+php:
+	date.timezone: Europe/Prague
+
+
+nette:
+	database:
+		default:
+			dsn: "mysql:host=%database.host%;dbname=%database.dbname%"
+			user: %database.user%
+			password: %database.password%
+
+services:
+	database: @Nette\Database\Connection

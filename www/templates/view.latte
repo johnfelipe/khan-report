@@ -17,63 +17,22 @@ foreach ($languages as $node) {
 
 {#content}
 	<h1>New translations for {$language}</h1>
-	<?php
-		$data = getTranslations($lang);
-		usort($data, function($a, $b) {
-			return $a[0] > $b[0];
-		});
-
-		$days = [];
-		$pool = [];
-		$last_day = NULL;
-		foreach ($data as $node) {
-			$day = date('Y-m-d', $node[0]);
-
-			if ($day !== $last_day) {
-				foreach ($pool as $i => $id) {
-					$remove_from_pool = TRUE;
-					foreach ($data as $n) {
-						if ($day === date('Y-m-d', $n[0]) && $n[1] === $id) {
-							$remove_from_pool = FALSE;
-							break;
-						}
-					}
-					if ($remove_from_pool) {
-						unset($pool[$i]);
-					}
-				}
-			}
-
-			if (!in_array($node[1], $pool)) {
-				$days[$day][] = $node[1];
-				$pool[] = $node[1];
-			}
-
-			$last_day = $day;
-		}
-
-		// this is mainly for the very first import - should not be neccesary with pool
-		//foreach ($days as &$day) {
-		//	$day = array_unique($day);
-		//}
-
-		krsort($days);
-	?>
-	{foreach $days as $day => $videos}
-		{if $show = '2013-05-10' === $day && !isset($complete)}
-			{?break}
+	{var $data = getDays($lang)}
+	{foreach $data as $day => $videos}
+		{if '2013-05-10' === $day && !isset($complete)}
+			{?continue}
 		{/if}
 		<h2>
 			{if $day === date('2013-05-10')}
 				At the very beginning of time
 			{elseif $day === date('Y-m-d')}
-				Today
+				Today &ndash; real-time data, list not necessarily complete
 			{elseif $day === date('Y-m-d')}
 				Yesterday
 			{else}
 				{$day} &mdash; {timeAgoInWords($day)}
 			{/if}
-			({count($videos)})
+			({count($data[$day])})
 		</h2>
 		<table class="table table-striped">
 			<tr n:foreach="$videos as $video">

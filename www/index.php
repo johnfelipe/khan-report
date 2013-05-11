@@ -13,6 +13,8 @@ if (extension_loaded('newrelic')) {
 $configurator = new Nette\Configurator;
 $configurator->enableDebugger(__DIR__ . '/../log');
 $configurator->setTempDirectory(__DIR__ . '/../temp');
+$configurator->addConfig(__DIR__ . '/../config.neon');
+$configurator->addConfig(__DIR__ . '/../config.local.neon');
 $container = $configurator->createContainer();
 
 $container->addService('router', new TemplateRouter('templates', __DIR__ . '/../temp'));
@@ -40,9 +42,12 @@ function getLastTimestamp()
   return $time;
 }
 
-function getTranslations($language)
+function getBufferedTranslations($language)
 {
-  $handle = fopen(__DIR__ . "/../translations.dat", "r");
+  $handle = fopen(__DIR__ . "/../data/translations_" . date('Y-m-d') . ".dat", "r");
+  $min = strToTime(date('Y-m-d'));
+  $max = $min + 3600 * 24;
+
   $data = [];
   while (!feof($handle)) {
     $line = trim(fgets($handle));
@@ -50,22 +55,53 @@ function getTranslations($language)
       continue;
 
     list($time, $youtube_id, $langs) = explode("\t", $line);
-    if (preg_match("~(\s|;)$language(;|$)~", $line)) { // 14 409.1 ms
-    //if (in_array($language, explode(';', $langs))) { // 14 331.9 ms
-      $data[] = [$time, $youtube_id];
+    // TODO old buffer replace with new faster strpos
+    if ($time >= $min && $time < $max && preg_match("~(\s|;)$language(;|$)~", $line)) {
+      if (!in_array($youtube_id, $data))
+        $data[] = $youtube_id;
     }
   }
 
   return $data;
 }
 
+function getDays($language)
+{
+  $data = [];
+  $today = date('Y-m-d');
+  $yesterday = date('Y-m-d', time() - 3600 * 24);
+  foreach (getTranslations($language) as $row) {
+    if (!isset($data[$row->day])) {
+      $data[$row->day] = [];
+    }
+    $data[$row->day][] = $row->youtube_id;
+  }
+
+  $data_today = [];
+  foreach (getBufferedTranslations($language) as $node) {
+    if (!in_array($node, $data[$yesterday]))
+      $data_today[] = $node;
+  }
+
+  return array_merge([$today => $data_today], $data);
+}
+
+function getTranslations($language)
+{
+  global $container;
+  return $container->database->table('translation')->select('youtube_id, day')->where('language', $language)->order('day DESC, id DESC');
+}
+
+function getLanguageCounts()
+{
+  global $container;
+  return $container->database->table('translation')->select('Count(DISTINCT youtube_id) AS count, language')->group('language')->fetchPairs('language', 'count');
+}
+
 function getLanguageCount($language)
 {
-  $ids = [];
-  foreach (getTranslations($language) as $node) {
-    $ids[] = $node[1];
-  }
-  return count(array_unique($ids));
+  global $container;
+  return $container->database->table('translation')->select('DISTINCT youtube_id')->where('language', $language)->count();
 }
 
 function getYoutube($youtube_id)

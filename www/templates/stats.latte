@@ -8,39 +8,33 @@
 {#content}
 	<h1>Translation statistics</h1>
 
-	{cache $highlight, expire => '+30 minutes'}
+	{*cache $highlight, expire => '+30 minutes'*}
 		<?php
-		$counts = [];
-		$max = 0;
-		foreach ($languages as $lang) {
-			// english is not a translation
-			if ($lang[2] === 'en') {
-				continue;
-			}
-
-			$count = getLanguageCount($lang[2]);
-			$counts[$lang[0]] = [$count, $lang[2]];
-			if ($count > $max) {
-				$max = $count;
-			}
-		}
-		uasort($counts, function($a, $b) {
-			return $a[0] < $b[0];
-		});
+		$counts = getLanguageCounts();
+		$max = max($counts);
+		arsort($counts);
 		?>
 		<h2>Most translated languages</h2>
 		<table class="table table-striped">
-			<tr n:foreach="array_slice($counts, 0, 10) as $country => $node"{if $node[1] === $highlight} class="info"{/if}>
-				<td style="text-align: right"><a href="view/?lang={$node[1]}">{$country}<a></td>
-				<td style="width: 1.5em">{$node[0]}</td>
+			<tr n:foreach="array_slice($counts, 0, 10) as $lang => $count"{if $lang === $highlight} class="info"{/if}>
+				<?php
+				foreach ($languages as $n) {
+					if ($n[2] === $lang) {
+						$wordy_lang = $n[0];
+						break;
+					}
+				}
+				?>
+				<td style="text-align: right"><a href="view/?lang={$lang}">{$wordy_lang}<a></td>
+				<td style="width: 1.5em">{$count}</td>
 				<td>
 					<div class="progress">
-					  <div class="bar bar-success" style="width: {! $node[0] / $max * 100}%;"></div>
+					  <div class="bar bar-success" style="width: {! $count / $max * 100}%;"></div>
 					</div>
 				</td>
 			</tr>
 		</table>
-	{/cache}
+	{*/cache*}
 
 	<p class="alert alert-info" n:if="!$highlight">
 		You may highlight specific language by appending <code>&lang=en</code> and similar to url.

@@ -5,25 +5,24 @@
 
 
 {#content}
-	{cache expire => '+5 hours'}
-    <div class="hero-unit">
-      <h1>Find what videos has recenly been translated&mdash;in a user-friendly way.</h1>
-      <form class="form-search" action="recent">
-        <select type="text" name="lang" class="input-large chzn-select" data-placeholder="Choose your language&hellip;">
-          {foreach $languages as $language}
-            <?php
-              $count = getLanguageCount($language[2]);
-              if (!$count)
-                continue;
-            ?>
-            <option value="{$language[2]}">
-              {$language[0]} (~{$count})
-            </option>
-          {/foreach}
-        </select>
-        <button type="submit" class="btn btn-primary">Show content</button>
-      </form>
-      <p>Unlike original reports from Khan Academy, information here is updated very often (each video checked roughly every two hours) and presented in a particulary practical way.</p>
-      <p>Pss: we also have some <a href="/stats">nifty near-realtime statistics</a>!</p>
-    </div>
-  {/cache}
+	<div class="hero-unit">
+		<h1>Find what videos has recenly been translated&mdash;in a user-friendly way.</h1>
+		<form class="form-search" action="recent">
+			<select type="text" name="lang" class="input-large chzn-select" data-placeholder="Choose your language&hellip;">
+				{var $counts = getLanguageCounts()}
+				{foreach $languages as $language}
+					<?php
+						$count = @$counts[$language[2]]; // ignore if key not set
+						if (!$count)
+							continue;
+					?>
+					<option value="{$language[2]}">
+						{$language[0]} ({$count /* + count(getBufferedTranslations($language[2]))*/  })
+					</option>
+				{/foreach}
+			</select>
+			<button type="submit" class="btn btn-primary">Show content</button>
+		</form>
+		<p>Unlike original reports from Khan Academy, information here is updated very often (each video checked roughly every two hours) and presented in a particulary practical way.</p>
+		<p>Pss: we also have some <a href="/stats">nifty near-realtime statistics</a>!</p>
+	</div>
