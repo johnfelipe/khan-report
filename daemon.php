@@ -12,6 +12,7 @@ $container = $configurator->createContainer();
 
 @mkdir(__DIR__ . '/data');
 
+$handle = fopen(__DIR__ . "/youtube_ids.dat", "r");
 $last = trim(@file_get_contents(__DIR__ . '/last_checked_youtube_id.dat')); // @ - file might not exist
 if ($last) {
 	echo "Seeking last location ($last)\n";
