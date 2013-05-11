@@ -1,5 +1,7 @@
 <?php
 
+set_time_limit(60);
+
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/TemplateRouter.php';
 $languages = require __DIR__ . '/languages.php';

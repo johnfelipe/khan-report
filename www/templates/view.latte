@@ -1,4 +1,5 @@
 {url recent/?lang=<lang>}
+{url recent/?lang<lang>&complete=<complete>}
 {layout "@layout.latte"}
 {?global $languages}
 {var $netteCacheStorage = new Nette\Caching\Storages\FileStorage(__DIR__ . '/../../../temp/cache')}
@@ -59,6 +60,9 @@ foreach ($languages as $node) {
 		krsort($days);
 	?>
 	{foreach $days as $day => $videos}
+		{if $show = '2013-05-10' === $day && !isset($complete)}
+			{?break}
+		{/if}
 		<h2>
 			{if $day === date('2013-05-10')}
 				At the very beginning of time
@@ -97,3 +101,6 @@ foreach ($languages as $node) {
 			</tr>
 		</table>
 	{/foreach}
+	{if !isset($complete)}
+		<a href="/recent/?lang={$lang}&complete" class="btn" style="margin-bottom: 2ex">Show all translated videos</a>
+	{/if}
