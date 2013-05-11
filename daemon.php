@@ -37,8 +37,9 @@ for (;;) {
 	}
 
 	foreach ($langs as $lang) {
-		if ($container->database->table('translation')->where('day', date('Y-m-d', time() - 3600 * 24))->where('youtube_id', $id)->where('language', $lang)->count() !== 0) {
-			// this video has been translated yesterday or before, do not save as new
+		// @TODO: This is stupid solution and prevents videos that change from complete to incomplete from appearing again later
+		if ($container->database->table('translation')->where('youtube_id', $id)->where('language', $lang)->count() !== 0) {
+			// this video has been translated before, do not save as new
 			continue;
 		}
 
