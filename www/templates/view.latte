@@ -19,7 +19,7 @@ foreach ($languages as $node) {
 	<?php
 		$data = getTranslations($lang);
 		usort($data, function($a, $b) {
-			return $a[0] < $b[0];
+			return $a[0] > $b[0];
 		});
 
 		$days = [];
@@ -55,7 +55,7 @@ foreach ($languages as $node) {
 			$day = array_unique($day);
 		}
 
-		dump($days);die;
+		arsort($days);
 	?>
 	{foreach $days as $day => $videos}
 		<h2>
