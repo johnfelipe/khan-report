@@ -57,9 +57,7 @@
           <a class="brand" href="/">Translation status</a>
           <div class="nav-collapse collapse pull-right">
           	{var $running = isDaemonRunning()}
-            {var $ts = getLastTimestamp()}
           	<p class="navbar-text">
-              Last update <span title="{$ts|date:'Y-m-d h:i'}">{timeAgoInWords($ts)}</a>
               <span class="label label-{$running ? 'success' : 'important'}">{$running ? 'service is running' : 'service stopped'}</span>
             </p>
         </div>
