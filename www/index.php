@@ -30,10 +30,11 @@ function getDays($language)
 {
 	$data = [];
 	foreach (getTranslations($language) as $row) {
-		if (!isset($data[$row->day])) {
-			$data[$row->day] = [];
+		$day = $row->day->format('Y-m-d');
+		if (!isset($data[$day])) {
+			$data[$day] = [];
 		}
-		$data[$row->day][] = $row->youtube_id;
+		$data[$day][] = $row->youtube_id;
 	}
 
 	return $data;
