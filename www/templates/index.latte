@@ -16,9 +16,7 @@
 						if (!$count)
 							continue;
 					?>
-					<option value="{$language[2]}">
-						{$language[0]} ({$count /* + count(getBufferedTranslations($language[2]))*/  })
-					</option>
+					<option value="{$language[2]}">{$language[0]} ({$count})</option>
 				{/foreach}
 			</select>
 			<button type="submit" class="btn btn-primary">Show content</button>
