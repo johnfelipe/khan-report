@@ -39,7 +39,7 @@ function getCzechVideosNotOnKs()
 function isVideoOnKs($youtube_id)
 {
 	global $db_ks;
-	return $db_ks->table('video')->where('youtube_id', $youtube_id)->count() === 1;
+	return $db_ks->table('video')->where('youtube_id = ? OR youtube_id_original = ?', $youtube_id, $youtube_id)->count() >= 1;
 }
 
 function isDaemonRunning()
