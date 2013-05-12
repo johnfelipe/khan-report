@@ -18,7 +18,7 @@ foreach ($languages as $node) {
 {#content}
 	<h1>New translations for {$language}</h1>
 	<p n:if="$lang === 'cs'"><a href="/new?lang=cs">Show only videos not on Khanova škola</a></p>
-	{includeblock ~table.latte, data => getDays($lang)}
+	{includeblock +table.latte, data => getDays($lang)}
 	{if !isset($complete)}
 		<a href="/recent/?lang={$lang}&complete" class="btn" style="margin-bottom: 2ex">Show all translated videos</a>
 	{/if}
