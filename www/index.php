@@ -68,10 +68,14 @@ function getTranslations($language)
 	return $container->database->table('translation')->select('youtube_id, day')->where('language', $language)->order('day DESC, id DESC');
 }
 
-function getLanguageCounts()
+function getLanguageCounts($since = NULL)
 {
 	global $container;
-	return $container->database->table('translation')->select('Count(DISTINCT youtube_id) AS count, language')->group('language')->fetchPairs('language', 'count');
+	$query = $container->database->table('translation')->select('Count(DISTINCT youtube_id) AS count, language');
+	if ($since) {
+		$query = $query->where('day > ?', $since);
+	}
+	return $query->group('language')->fetchPairs('language', 'count');
 }
 
 function getLanguageCount($language)

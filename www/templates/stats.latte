@@ -8,34 +8,63 @@
 {#content}
 	<h1>Translation statistics</h1>
 
-	{*cache $highlight, expire => '+30 minutes'*}
-		<?php
-		$counts = getLanguageCounts();
-		$max = max($counts);
-		arsort($counts);
-		?>
-		<h2>Most translated languages</h2>
-		<table class="table table-striped">
-			<tr n:foreach="array_slice($counts, 0, 10) as $lang => $count"{if $lang === $highlight} class="info"{/if}>
-				<?php
-				foreach ($languages as $n) {
-					if ($n[2] === $lang) {
-						$wordy_lang = $n[0];
-						break;
+	<div class="row">
+		<div class="span6">
+			<?php
+			$counts = getLanguageCounts();
+			$max = max($counts);
+			arsort($counts);
+			?>
+			<h2>Most translated languages</h2>
+			<table class="table table-striped">
+				<tr n:foreach="array_slice($counts, 0, 10) as $lang => $count"{if $lang === $highlight} class="info"{/if}>
+					<?php
+					foreach ($languages as $n) {
+						if ($n[2] === $lang) {
+							$wordy_lang = $n[0];
+							break;
+						}
 					}
-				}
-				?>
-				<td style="text-align: right"><a href="recent/?lang={$lang}">{$wordy_lang}<a></td>
-				<td style="width: 1.5em">{$count}</td>
-				<td>
-					<div class="progress">
-					  <div class="bar bar-success" style="width: {! $count / $max * 100}%;"></div>
-					</div>
-				</td>
-			</tr>
-		</table>
-	{*/cache*}
+					?>
+					<td style="text-align: right"><a href="recent/?lang={$lang}">{$wordy_lang}<a></td>
+					<td style="width: 1.5em">{$count}</td>
+					<td>
+						<div class="progress">
+						  <div class="bar bar-success" style="width: {! $count / $max * 100}%;"></div>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="span6">
+			<?php
+				$counts = getLanguageCounts(date('Y-m-d', time() - 3600 * 24 * 2));
+				$max = max($counts);
+				arsort($counts);
+			?>
+			<h2>Recent additions</h2>
+			<table class="table table-striped">
+				<tr n:foreach="array_slice($counts, 0, 10) as $lang => $count"{if $lang === $highlight} class="info"{/if}>
+					<?php
+					foreach ($languages as $n) {
+						if ($n[2] === $lang) {
+							$wordy_lang = $n[0];
+							break;
+						}
+					}
+					?>
+					<td style="text-align: right"><a href="recent/?lang={$lang}">{$wordy_lang}<a></td>
+					<td style="width: 1.5em">{$count}</td>
+					<td>
+						<div class="progress">
+						  <div class="bar bar-success" style="width: {! $count / $max * 100}%;"></div>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
 
 	<p class="alert alert-info" n:if="!$highlight">
-		You may highlight specific language by appending <code>&lang=en</code> and similar to url.
+		You may highlight specific language by appending <code>?lang=cs</code> and similar to url.
 	</p>
