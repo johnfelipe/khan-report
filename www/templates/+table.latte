@@ -1,0 +1,49 @@
+{foreach $data as $day => $videos}
+	{if '2013-05-10' === $day && !isset($complete)}
+		{?continue}
+	{/if}
+	<h2>
+		{if $day === date('2013-05-10')}
+			At the very beginning of time
+		{elseif $day === date('Y-m-d')}
+			Today &ndash; real-time data, list not necessarily complete
+		{elseif $day === date('Y-m-d')}
+			Yesterday
+		{else}
+			{$day} &mdash; {timeAgoInWords($day)}
+		{/if}
+		({count($data[$day])})
+	</h2>
+	<table class="table table-striped">
+		<tr n:foreach="$videos as $video">
+			<?php
+				$uilang = 'en';
+				if (in_array($lang, ['ar', 'bg', 'cs', 'fr', 'he', 'it', 'pl', 'zh-cn', 'zh-tw'])) {
+					$uilang = $lang;
+				}
+
+				$amara = getAmara($video, $lang);
+				$amara_url = "http://www.amara.org/$uilang/videos/{$amara->video_id}/$lang/";
+				$youtube = getYoutube($video);
+			?>
+			{var $completed = $lang === 'cs' && isVideoOnKs($video)}
+			<tr n:class="$completed ? completed">
+				<td>
+					<button data-clipboard-text="{$video}"></button> <a href="http://www.youtube.com/watch/?v={$video}" target="_blank"><code>{$video}</code></a>
+				</td>
+				{if $completed}
+					<td colspan="2" class="complete">
+						<a href="https://khanovaskola.cz/video?v={$video}" target="_blank">{$amara->subtitles->title ?: '(title not translated)'|truncate:60}</a>
+					</td>
+				{else}
+					<td>
+						<a href="{$amara_url}" target="_blank">{$amara->subtitles->title ?: '(title not translated)'|truncate:60}</a>
+					</td>
+					<td>
+						<a href="http://www.khanacademy.org/video?v={$video}" target="_blank">{$youtube->data->title ?: '(Khan Academy link)'|truncate:60}</a>
+					</td>
+				{/if}
+			</tr>
+		</tr>
+	</table>
+{/foreach}
