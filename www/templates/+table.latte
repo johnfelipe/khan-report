@@ -33,7 +33,7 @@
 				</td>
 				{if $completed}
 					<td colspan="3" class="complete">
-						<a href="https://khanovaskola.cz/video?v={$video}" target="_blank">{$amara->subtitles->title ?: '(title not translated)'|truncate:60}</a>
+						<a href="https://khanovaskola.cz/video/{$video}" target="_blank">{$amara->subtitles->title ?: '(title not translated)'|truncate:60}</a>
 					</td>
 				{else}
 					<td>
