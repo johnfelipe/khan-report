@@ -23,6 +23,19 @@ $db_ks = new Nette\Database\Connection("mysql:host=localhost;dbname=khanovaskola
 $container->addService('router', new TemplateRouter('templates', __DIR__ . '/../temp'));
 $container->application->run();
 
+function getCzechVideosNotOnKs()
+{
+	$data = [];
+	foreach (getDays('cs') as $day => $videos) {
+		foreach ($videos as $video) {
+			if (!isVideoOnKs($video)) {
+				$data[$day][] = $video;
+			}
+		}
+	}
+	return $data;
+}
+
 function isVideoOnKs($youtube_id)
 {
 	global $db_ks;
