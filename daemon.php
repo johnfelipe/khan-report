@@ -28,9 +28,16 @@ for (;;) {
 		fseek($handle, 0);
 	}
 
+	$return_pos = ftell($handle);
 	$id = substr(fgets($handle, 12 * 8), 0, 11); // every line only has 11+1 1-byte chars
 	$langs = [];
-	foreach (getVideoTranslatedLangs($id) as $lang => $percent) {
+	$data = getVideoTranslatedLangs($id);
+	if (!$data) { // dropdown not returned, query again
+		fseek($handle, $return_pos);
+		file_put_contents(__DIR__ . '/api_errors.log', time() . "\t$id\n", FILE_APPEND);
+		continue;
+	}
+	foreach ($data as $lang => $percent) {
 		if ($percent >= 95) { // basically complete (chinese messing up timings etc)
 			$langs[] = $lang;
 		}

@@ -10,6 +10,11 @@ function getVideoTranslatedLangs($id)
 	$url = 'http://www.universalsubtitles.org/widget/rpc/jsonp/show_widget?video_url=' . urlencode("\"http://www.youtube.com/watch?v={$id}\"") . '&is_remote=false&callback=';
 	$res = file_get_contents($url);
     $json = json_decode("[" . substr($res, 1, -2) . "]"); // remove colon and parenthesis
+
+if (!isset($json[0]) || !property_exists($json[0], 'drop_down_contents')) {
+	return FALSE;
+}
+
     $languages = [];
     foreach ($json[0]->drop_down_contents as $node) {
     	if (property_exists($node, 'percent_done')) {
