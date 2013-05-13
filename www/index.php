@@ -23,6 +23,12 @@ $db_ks = new Nette\Database\Connection("mysql:host=localhost;dbname=khanovaskola
 $container->addService('router', new TemplateRouter('templates', __DIR__ . '/../temp'));
 $container->application->run();
 
+function getRecentAdditions()
+{
+	global $container;
+	return $container->database->table('translation')->order('id DESC')->limit(10);
+}
+
 function getCzechVideosNotOnKs()
 {
 	$data = [];

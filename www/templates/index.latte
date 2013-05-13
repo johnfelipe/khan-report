@@ -24,3 +24,21 @@
 		<p>Unlike original reports from Khan Academy, information here is updated very often (each video checked roughly every two hours) and presented in a particulary practical way.</p>
 		<p>Pss: we also have some <a href="/stats">nifty near-realtime statistics</a>!</p>
 	</div>
+	<h2>Recently added translations</h2>
+	<ul>
+		<li n:foreach="getRecentAdditions() as $row">
+			{var $youtube = getYoutube($row->youtube_id)}
+			<?php
+				$language = '';
+				foreach ($languages as $node) {
+					if ($node[2] === $row->language) {
+						$language = $node[0];
+						break;
+					}
+				}
+			?>
+			<a href="/recent/?lang={$row->language}">{$language}: {$youtube->data->title}</a>
+		</li>
+		<li>&hellip;</li>
+	</ul>
+	<hr>

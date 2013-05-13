@@ -3,6 +3,10 @@
 require __DIR__ . '/amara.php';
 require __DIR__ . '/vendor/autoload.php';
 
+if (extension_loaded('newrelic')) {
+	newrelic_set_appname('khan-report.khanovaskola.cz-daemon');
+}
+
 $configurator = new Nette\Configurator;
 $configurator->setDebugMode(TRUE);
 $configurator->setTempDirectory(__DIR__ . '/temp');
