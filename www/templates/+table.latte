@@ -14,8 +14,17 @@
 		{/if}
 		({count($data[$day])})
 	</h2>
+	{var $skipMeta = FALSE}
 	<table class="table table-striped">
 		<tr n:foreach="$videos as $video">
+			{if $skipMeta}
+				<td>
+					<button data-clipboard-text="{$video}"></button> <a href="http://www.youtube.com/watch/?v={$video}" target="_blank"><code>{$video}</code></a>
+				</td>
+				<td></td>
+				<td></td>
+				{?continue}
+			{/if}
 			<?php
 				$uilang = 'en';
 				if (in_array($lang, ['ar', 'bg', 'cs', 'fr', 'he', 'it', 'pl', 'zh-cn', 'zh-tw'])) {
@@ -27,8 +36,8 @@
 					$amara_url = "http://www.amara.org/$uilang/videos/{$amara->video_id}/$lang/";
 					$youtube = getYoutube($video);
 				} catch (Exception $e) {
-					echo "<tr><td>API limits depleted, unable to load more results. Please try again later.</td></tr>\n";
-					break;
+					echo "<tr><td colspan=\"99\">API limits depleted, unable to properly load more results. Please try again later. Listing youtube ids only now:</td></tr>\n";
+					$skipMeta = TRUE;
 				}
 			?>
 			{var $completed = $lang === 'cs' && isVideoOnKs($video)}
