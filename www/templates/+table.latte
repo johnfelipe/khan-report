@@ -22,9 +22,13 @@
 					$uilang = $lang;
 				}
 
-				$amara = getAmara($video, $lang);
-				$amara_url = "http://www.amara.org/$uilang/videos/{$amara->video_id}/$lang/";
-				$youtube = getYoutube($video);
+				try {
+					$amara = getAmara($video, $lang);
+					$amara_url = "http://www.amara.org/$uilang/videos/{$amara->video_id}/$lang/";
+					$youtube = getYoutube($video);
+				} catch (Exception $e) {
+					echo "<tr><td>API limits depleted, unable to load more results. Please try again later.</td></tr>\n"
+				}
 			?>
 			{var $completed = $lang === 'cs' && isVideoOnKs($video)}
 			<tr n:class="$completed ? completed">
