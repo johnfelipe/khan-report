@@ -36,7 +36,7 @@ for (;;) {
 	$id = substr(fgets($handle, 12 * 8), 0, 11); // every line only has 11+1 1-byte chars
 	$langs = [];
 	$data = getVideoTranslatedLangs($id);
-	if (!$data) { // dropdown not returned, query again
+	if ($data === FALSE) { // dropdown not returned, query again
 		fseek($handle, $return_pos);
 		file_put_contents(__DIR__ . '/api_errors.log', time() . "\t$id\n", FILE_APPEND);
 		continue;
