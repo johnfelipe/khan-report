@@ -25,7 +25,9 @@ if ($last) {
 
 echo "Daemon started\n";
 // daemon loop
+$retry = 0;
 for (;;) {
+	sleep(2); // do not hammer the API
 	if (feof($handle)) {
 		file_put_contents(__DIR__ . '/cycles.dat', time() . "\n", FILE_APPEND);
 		file_put_contents(__DIR__ . '/mem_usage.log', memory_get_usage() . "\n", FILE_APPEND);
@@ -37,8 +39,15 @@ for (;;) {
 	$langs = [];
 	$data = getVideoTranslatedLangs($id);
 	if ($data === FALSE) { // dropdown not returned, query again
-		fseek($handle, $return_pos);
-		file_put_contents(__DIR__ . '/api_errors.log', time() . "\t$id\n", FILE_APPEND);
+		$retry++;
+		if ($retry <= 3) {
+			// retry
+			fseek($handle, $return_pos);
+			file_put_contents(__DIR__ . '/api_errors.log', time() . "\t$id\n", FILE_APPEND);
+			continue;
+		}
+		$retry = 0;
+		// skip
 		continue;
 	}
 	foreach ($data as $lang => $percent) {
