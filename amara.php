@@ -7,13 +7,13 @@ define('FILTER_TEAM', 'khanacademy');
 
 function getVideoTranslatedLangs($id)
 {
-	$url = 'http://www.universalsubtitles.org/widget/rpc/jsonp/show_widget?video_url=' . urlencode("\"http://www.youtube.com/watch?v={$id}\"") . '&is_remote=false&callback=';
+	$url = "http://amara.8u.cz/?youtube_id={$youtube_id}&lang=cs";
 	$res = file_get_contents($url);
-    $json = json_decode("[" . substr($res, 1, -2) . "]"); // remove colon and parenthesis
+    $json = json_decode($res);
 
-if (!isset($json[0]) || !property_exists($json[0], 'drop_down_contents')) {
-	return FALSE;
-}
+    if (!isset($json[0]) || !property_exists($json[0], 'drop_down_contents')) {
+        return FALSE;
+    }
 
     $languages = [];
     foreach ($json[0]->drop_down_contents as $node) {
