@@ -118,7 +118,7 @@ function getAmara($youtube_id, $lang) {
 		return $meta;
 	}
 	if (!$meta) {
-		$url = 'http://www.universalsubtitles.org/widget/rpc/jsonp/show_widget?video_url=' . urlencode("\"http://www.youtube.com/watch?v={$youtube_id}\"") . '&is_remote=true&base_state=%7B%22language%22%3A%22' . $lang .'%22%7D&callback=';
+		$url = "http://amara.8u.cz/?youtube_id={$youtube_id}&lang={$lang}";
 		$res = "[" . substr(@file_get_contents($url), 1, -2) . "]"; // remove colon and parenthesis
 		$meta = json_decode($res);
 		$id = NULL;
