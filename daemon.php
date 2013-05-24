@@ -23,13 +23,14 @@ if ($last) {
 	while (substr(fgets($handle, 12 * 8), 0, 11) !== $last);
 }
 
-$verbose = isset($argv[1]) ? in_array($argv[1], ['--verbose', '-v']) : FALSE;
+$verbose = in_array('-v', $argv) || in_array('--verbose', $argv);
+$time = isset($argv[1]) ? $argv[1] : 2;
 
-echo "Daemon started\n";
+echo "Daemon started (wait time of $time)\n";
 // daemon loop
 $retry = 0;
 for (;;) {
-	sleep(2); // do not hammer the API
+	sleep($time); // do not hammer the API
 	if (feof($handle)) {
 		file_put_contents(__DIR__ . '/cycles.dat', time() . "\n", FILE_APPEND);
 		file_put_contents(__DIR__ . '/mem_usage.log', memory_get_usage() . "\n", FILE_APPEND);
