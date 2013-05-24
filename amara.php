@@ -24,5 +24,5 @@ function getVideoTranslatedLangs($id)
     	}
     }
 
-    return $languages;
+    return [$json[0]->video_id, $languages, $json[0]];
 }

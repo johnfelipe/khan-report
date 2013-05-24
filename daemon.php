@@ -40,7 +40,20 @@ for (;;) {
 	$id = substr(fgets($handle, 12 * 8), 0, 11); // every line only has 11+1 1-byte chars
 	if ($verbose) echo "Checking $id\n";
 	$langs = [];
-	$data = getVideoTranslatedLangs($id);
+	list($amara_id, $data, $json) = getVideoTranslatedLangs($id);
+
+	try {
+		$container->database->table('amara_map')->insert([
+			'youtube_id' => $id,
+			'amara_id' => $amara_id,
+		]);
+	} catch (PDOException $e) {
+		if ($e->getCode() != 23000) {
+			throw $e;
+		}
+		// else duplicate entry, ignore
+	}
+
 	if ($data === FALSE) { // dropdown not returned, query again
 		if ($verbose) echo "Invalid data received\ttry #$retry\n";
 		$retry++;
@@ -54,10 +67,21 @@ for (;;) {
 		// skip
 		continue;
 	}
+
 	foreach ($data as $lang => $percent) {
 		if ($percent >= 95) { // basically complete (chinese messing up timings etc)
 			$langs[] = $lang;
 		}
+	}
+
+	if (in_array('cs', $langs)) {
+		$container->database->table('subtitles')->where('amara_id', $amara_id)->delete();
+		$container->database->table('subtitles')->insert([
+			'amara_id' => $amara_id,
+			'language' => 'cs',
+			'label' => $json->subtitles->description,
+			'subs' => json_encode($json->subtitles->subtitles),
+		]);
 	}
 
 	foreach ($langs as $lang) {
