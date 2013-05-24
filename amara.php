@@ -7,7 +7,7 @@ define('FILTER_TEAM', 'khanacademy');
 
 function getVideoTranslatedLangs($id)
 {
-	$url = "http://amara.8u.cz/?youtube_id={$youtube_id}&lang=cs";
+	$url = "http://amara.8u.cz/?youtube_id={$id}&lang=cs";
 	$res = file_get_contents($url);
     $json = json_decode($res);
 
