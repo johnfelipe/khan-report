@@ -23,6 +23,8 @@ if ($last) {
 	while (substr(fgets($handle, 12 * 8), 0, 11) !== $last);
 }
 
+$verbose = isset($argv[1]) ? in_array($argv[1], ['--verbose', '-v']) : FALSE;
+
 echo "Daemon started\n";
 // daemon loop
 $retry = 0;
@@ -36,9 +38,11 @@ for (;;) {
 
 	$return_pos = ftell($handle);
 	$id = substr(fgets($handle, 12 * 8), 0, 11); // every line only has 11+1 1-byte chars
+	if ($verbose) echo "Checking $id\n";
 	$langs = [];
 	$data = getVideoTranslatedLangs($id);
 	if ($data === FALSE) { // dropdown not returned, query again
+		if ($verbose) echo "Invalid data received\ttry #$retry\n";
 		$retry++;
 		if ($retry <= 3) {
 			// retry
@@ -62,6 +66,7 @@ for (;;) {
 			// this video has been translated before, do not save as new
 			continue;
 		}
+		if ($verbose) echo "\t saving new languages\n";
 
 		try {
 			$container->database->table('translation')->insert([
