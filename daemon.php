@@ -41,7 +41,6 @@ for (;;) {
 	if ($verbose) echo "Checking $id\n";
 	$langs = [];
 	list($amara_id, $data, $json) = getVideoTranslatedLangs($id);
-
 	try {
 		$container->database->table('amara_map')->insert([
 			'youtube_id' => $id,
@@ -79,7 +78,7 @@ for (;;) {
 		$container->database->table('subtitles')->insert([
 			'amara_id' => $amara_id,
 			'language' => 'cs',
-			'label' => $json->subtitles->description,
+			'label' => $json->subtitles->title,
 			'subs' => json_encode($json->subtitles->subtitles),
 		]);
 	}
