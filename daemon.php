@@ -81,6 +81,8 @@ for (;;) {
 			'language' => 'cs',
 			'label' => $json->subtitles->title,
 			'description' => $json->subtitles->description,
+			'subLangPK' => $json->subtitles->language_pk,
+			'baseLangPK' => $json->subtitles->base_language_pk,
 			'subs' => json_encode($json->subtitles->subtitles),
 		]);
 	}
