@@ -26,7 +26,6 @@
 	<h2>Recently added translations</h2>
 	<ul>
 		<li n:foreach="getRecentAdditions() as $row">
-			{var $youtube = getYoutube($row->youtube_id)}
 			<?php
 				$language = '';
 				foreach ($languages as $node) {
@@ -36,7 +35,7 @@
 					}
 				}
 			?>
-			<a href="/recent/?lang={$row->language}">{$node[0]}: {$youtube->data->title}</a>
+			<a href="/recent/?lang={$row->language}">{$node[0]}: {$row->title}</a>
 		</li>
 		<li>&hellip;</li>
 	</ul>

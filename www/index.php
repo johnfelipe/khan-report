@@ -23,10 +23,20 @@ $db_ks = new Nette\Database\Connection("mysql:host=localhost;dbname=khanovaskola
 $container->addService('router', new TemplateRouter('templates', __DIR__ . '/../temp'));
 $container->application->run();
 
+function hackDbal($obj, $primary)
+{
+	$refObject = new ReflectionObject($obj);
+	$refProperty = $refObject->getProperty('primary');
+	$refProperty->setAccessible(TRUE);
+	$refProperty->setValue($obj, $primary);
+}
+
 function getRecentAdditions()
 {
 	global $container;
-	return $container->database->table('translation')->order('id DESC')->limit(10);
+	$sel = $container->database->table('translation_full');
+	hackDbal($sel, 'id');
+	return $sel->order('id DESC')->limit(10);
 }
 
 function getCzechVideosNotOnKs()
@@ -42,10 +52,10 @@ function getCzechVideosNotOnKs()
 	return $data;
 }
 
-function isVideoOnKs($youtube_id)
+function isVideoOnKs($video)
 {
 	global $db_ks;
-	return $db_ks->table('video')->where('youtube_id = ? OR youtube_id_original = ?', $youtube_id, $youtube_id)->count() >= 1;
+	return $db_ks->table('video')->where('youtube_id = ? OR youtube_id_original = ?', $video->youtube_id, $video->youtube_id)->count() >= 1;
 }
 
 function isDaemonRunning()
@@ -72,6 +82,14 @@ function getTranslations($language)
 {
 	global $container;
 	return $container->database->table('translation')->select('youtube_id, day')->where('language', $language)->order('day DESC, id DESC');
+}
+
+function getVideo($youtube_id)
+{
+	global $container;
+	$sel = $container->database->table('video');
+	hackDbal($sel, 'youtube_id');
+	return $sel->where('youtube_id = ?', $youtube_id)->fetch();
 }
 
 function getLanguageCounts($since = NULL)

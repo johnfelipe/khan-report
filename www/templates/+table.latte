@@ -14,52 +14,34 @@
 		{/if}
 		({count($data[$day])})
 	</h2>
-	{var $skipMeta = FALSE}
 	<table class="table table-striped">
-		<tr n:foreach="$videos as $video">
-			{if !$skipMeta}
-				<?php
-					$uilang = 'en';
-					if (in_array($lang, ['ar', 'bg', 'cs', 'fr', 'he', 'it', 'pl', 'zh-cn', 'zh-tw'])) {
-						$uilang = $lang;
-					}
-
-					try {
-						$amara = getAmara($video, $lang);
-						$amara_url = "http://www.amara.org/$uilang/videos/{$amara->video_id}/$lang/";
-						$youtube = getYoutube($video);
-					} catch (Exception $e) {
-						echo "<tr><td colspan=\"99\">API limits depleted, unable to properly load more results. Please try again later. Listing youtube ids only now:</td></tr>\n";
-						$skipMeta = TRUE;
-					}
-				?>
-			{/if}
-			{if $skipMeta}
-				<td>
-					<button data-clipboard-text="{$video}"></button> <a href="http://www.youtube.com/watch/?v={$video}" target="_blank"><code>{$video}</code></a>
-				</td>
-				<td></td>
-				<td></td>
-				{?continue}
-			{/if}
+		<tr n:foreach="$videos as $youtube_id">
+			{var $video = getVideo($youtube_id)}
+			<?php
+				$uilang = 'en';
+				if (in_array($lang, ['ar', 'bg', 'cs', 'fr', 'he', 'it', 'pl', 'zh-cn', 'zh-tw'])) {
+					$uilang = $lang;
+				}
+				$amara_url = "http://www.amara.org/$uilang/videos/{$video->amara_id}/$lang/";
+			?>
 			{var $completed = $lang === 'cs' && isVideoOnKs($video)}
 			<tr n:class="$completed ? completed">
 				<td>
-					<button data-clipboard-text="{$video}"></button> <a href="http://www.youtube.com/watch/?v={$video}" target="_blank"><code>{$video}</code></a>
+					<button data-clipboard-text="{$video}"></button> <a href="http://www.youtube.com/watch/?v={$video->youtube_id}" target="_blank"><code>{$video->youtube_id}</code></a>
 				</td>
 				{if $completed}
 					<td colspan="3" class="complete">
-						<a href="https://khanovaskola.cz/video/{$video}" target="_blank">{$amara->subtitles->title ?: '(title not translated)'|truncate:60}</a>
+						<a href="https://khanovaskola.cz/video/{$video->youtube_id}" target="_blank">{$video->title ?: '(title not translated)'|truncate:60}</a>
 					</td>
 				{else}
 					<td>
-						<a href="{$amara_url}" target="_blank">{$amara->subtitles->title ?: '(title not translated)'|truncate:60}</a>
+						<a href="{$amara_url}" target="_blank">{$video->title ?: '(title not translated)'|truncate:60}</a>
 					</td>
 					<td>
-						<a href="http://www.khanacademy.org/video?v={$video}" target="_blank">{$youtube->data->title ?: '(Khan Academy link)'|truncate:60}</a>
+						<a href="http://www.khanacademy.org/video?v={$video->youtube_id}" target="_blank">{$video->title ?: '(Khan Academy link)'|truncate:60}</a>
 					</td>
 					<td n:if="$lang === 'cs'">
-						<a href="https://khanovaskola.cz/video/pridat?youtube_id={$video}&label={$amara->subtitles->title}&desc={$amara->subtitles->description}" target="_blank">
+						<a href="https://khanovaskola.cz/video/pridat?youtube_id={$video->youtube_id}&label={$video->title}&desc={$video->title}" target="_blank">
 							<img src="/img/add.png">
 						</a>
 					</td>
