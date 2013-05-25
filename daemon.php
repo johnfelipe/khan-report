@@ -80,6 +80,7 @@ for (;;) {
 			'amara_id' => $amara_id,
 			'language' => 'cs',
 			'label' => $json->subtitles->title,
+			'description' => $json->subtitles->description,
 			'subs' => json_encode($json->subtitles->subtitles),
 		]);
 	}
