@@ -17,31 +17,35 @@
 	<table class="table table-striped">
 		<tr n:foreach="$videos as $youtube_id">
 			{var $video = getVideo($youtube_id)}
+			{var $subs = getSubs($video->amara_id, $lang)}
 			<?php
+				if (!$subs) {
+					$subs = (object) ['label' => '', 'description' => ''];
+				}
 				$uilang = 'en';
 				if (in_array($lang, ['ar', 'bg', 'cs', 'fr', 'he', 'it', 'pl', 'zh-cn', 'zh-tw'])) {
 					$uilang = $lang;
 				}
 				$amara_url = "http://www.amara.org/$uilang/videos/{$video->amara_id}/$lang/";
 			?>
-			{var $completed = $lang === 'cs' && isVideoOnKs($video)}
+			{var $completed = $lang === 'cs' && isVideoOnKs($video->youtube_id)}
 			<tr n:class="$completed ? completed">
 				<td>
 					<button data-clipboard-text="{$video}"></button> <a href="http://www.youtube.com/watch/?v={$video->youtube_id}" target="_blank"><code>{$video->youtube_id}</code></a>
 				</td>
 				{if $completed}
 					<td colspan="3" class="complete">
-						<a href="https://khanovaskola.cz/video/{$video->youtube_id}" target="_blank">{$video->title ?: '(title not translated)'|truncate:60}</a>
+						<a href="https://khanovaskola.cz/video/{$video->youtube_id}" target="_blank">{$subs->label ?: '(title not translated)'|truncate:60}</a>
 					</td>
 				{else}
 					<td>
-						<a href="{$amara_url}" target="_blank">{$video->title ?: '(title not translated)'|truncate:60}</a>
+						<a href="{$amara_url}" target="_blank">{$subs->label ?: '(title not translated)'|truncate:60}</a>
 					</td>
 					<td>
 						<a href="http://www.khanacademy.org/video?v={$video->youtube_id}" target="_blank">{$video->title ?: '(Khan Academy link)'|truncate:60}</a>
 					</td>
 					<td n:if="$lang === 'cs'">
-						<a href="https://khanovaskola.cz/video/pridat?youtube_id={$video->youtube_id}&label={$video->title}&desc={$video->title}" target="_blank">
+						<a href="https://khanovaskola.cz/video/pridat?youtube_id={$video->youtube_id}&label={$subs->label}&desc={$subs->description}" target="_blank">
 							<img src="/img/add.png">
 						</a>
 					</td>

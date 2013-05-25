@@ -18,4 +18,6 @@ foreach ($languages as $node) {
 
 {#content}
 	<h1>{$language} translations not on Khanova škola</h1>
-	{includeblock +table.latte, data => getCzechVideosNotOnKs()}
+	{cache $lang, expire => '30 minutes'}
+		{includeblock +table.latte, data => getCzechVideosNotOnKs()}
+	{/cache}

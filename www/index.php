@@ -23,6 +23,12 @@ $db_ks = new Nette\Database\Connection("mysql:host=localhost;dbname=khanovaskola
 $container->addService('router', new TemplateRouter('templates', __DIR__ . '/../temp'));
 $container->application->run();
 
+function getSubs($amara_id, $lang)
+{
+	global $container;
+	return $container->database->table('subtitles')->where('amara_id = ? AND language = ?', $amara_id, $lang)->fetch();
+}
+
 function hackDbal($obj, $primary)
 {
 	$refObject = new ReflectionObject($obj);
@@ -55,7 +61,7 @@ function getCzechVideosNotOnKs()
 function isVideoOnKs($video)
 {
 	global $db_ks;
-	return $db_ks->table('video')->where('youtube_id = ? OR youtube_id_original = ?', $video->youtube_id, $video->youtube_id)->count() >= 1;
+	return $db_ks->table('video')->where('youtube_id = ? OR youtube_id_original = ?', $video, $video)->count() >= 1;
 }
 
 function isDaemonRunning()
