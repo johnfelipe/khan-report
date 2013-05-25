@@ -1,8 +1,5 @@
 <?php
 
-echo "Rebuilding indexes. Not available, will be up 26/05 or sooner.";
-die;
-
 set_time_limit(60);
 
 require __DIR__ . '/../vendor/autoload.php';

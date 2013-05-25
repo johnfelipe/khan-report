@@ -185,5 +185,7 @@ return $languages = [
 ['Yiddish', 'ייִדיש', 'yi'],
 ['Yoruba', 'Yorùbá', 'yo'],
 ['Zhuang, Chuang', 'Saɯ cueŋƅ, Saw cuengh', 'za'],
-['Zulu', 'isiZulu', 'zu']
+['Zulu', 'isiZulu', 'zu'],
+
+['Serbian', 'српски', 'sr-la'],
 ];
