@@ -79,10 +79,10 @@ for (;;) {
 		$container->database->table('subtitles')->insert([
 			'amara_id' => $amara_id,
 			'language' => 'cs',
-			'label' => $json->subtitles->title,
-			'description' => $json->subtitles->description,
-			'subLangPK' => $json->subtitles->language_pk,
-			'baseLangPK' => $json->subtitles->base_language_pk,
+			'label' => $json->subtitles->title ?: '',
+			'description' => $json->subtitles->description ?: '',
+			'subLangPK' => $json->subtitles->language_pk ?: '',
+			'baseLangPK' => $json->subtitles->base_language_pk ?: '',
 			'subs' => json_encode($json->subtitles->subtitles),
 		]);
 	}
