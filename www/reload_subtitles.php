@@ -1,7 +1,7 @@
 <?php
 
-require __DIR__ . '/amara.php';
-require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/../amara.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 if (extension_loaded('newrelic')) {
 	newrelic_set_appname('khan-report.khanovaskola.cz-daemon');
@@ -9,9 +9,9 @@ if (extension_loaded('newrelic')) {
 
 $configurator = new Nette\Configurator;
 $configurator->setDebugMode(TRUE);
-$configurator->setTempDirectory(__DIR__ . '/temp');
-$configurator->addConfig(__DIR__ . '/config.neon');
-$configurator->addConfig(__DIR__ . '/config.local.neon');
+$configurator->setTempDirectory(__DIR__ . '/../temp');
+$configurator->addConfig(__DIR__ . '/../config.neon');
+$configurator->addConfig(__DIR__ . '/../config.local.neon');
 $container = $configurator->createContainer();
 
 if ($_GET['password'] !== '65aw344tsz16254sdF4@-13265') {
