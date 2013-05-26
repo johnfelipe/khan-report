@@ -9,7 +9,7 @@ if (extension_loaded('newrelic')) {
 
 $configurator = new Nette\Configurator;
 $configurator->setDebugMode(TRUE);
-$configurator->setTempDirectory(__DIR__ . '/temp');
+$configurator->setTempDirectory(__DIR__ . '/temp/daemon');
 $configurator->addConfig(__DIR__ . '/config.neon');
 $configurator->addConfig(__DIR__ . '/config.local.neon');
 $container = $configurator->createContainer();
