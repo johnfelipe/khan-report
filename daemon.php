@@ -58,7 +58,7 @@ for (;;) {
 		if ($verbose) echo "Invalid data received\ttry #$retry\n";
 		$retry++;
 		if ($retry <= 3) {
-			// retry
+			// retry with another (random, possibly the same) amara wrapper
 			fseek($handle, $return_pos);
 			file_put_contents(__DIR__ . '/api_errors.log', time() . "\t$id\n", FILE_APPEND);
 			continue;

@@ -14,9 +14,11 @@ function getAmara($youtube_id, $lang) {
         '217.198.115.56' => [ // php5.cz
             'amara.php5.cz',
         ],
+        /* // blocked
         '78.46.88.202' => [ // killu.info
             'amara.24.eu',
         ],
+        */
         '31.170.160.169' => [ // 000webhost
             'amara2.netne.net',
         ]
